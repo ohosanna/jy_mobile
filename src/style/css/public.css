@@ -1,0 +1,244 @@
+
+
+.pa-0{padding: 0 !important;}
+.pa-5{padding: 0.5rem !important;}
+.pa-10{padding: 1rem !important;}
+.pa-15{padding: 1.5rem !important;}
+.pa-20{padding: 2rem !important;}
+
+.pl-0{padding-left: 0 !important;}
+.pl-5{padding-left: 0.5rem !important;}
+.pl-10{padding-left: 1rem !important;}
+.pl-15{padding-left: 1.5rem !important;}
+.pl-20{padding-left: 2rem !important;}
+.pr-0{padding-right: 0 !important;}
+.pr-5{padding-right: 0.5rem !important;}
+.pr-10{padding-right: 1rem !important;}
+.pr-15{padding-right: 1.5rem !important;}
+.pr-20{padding-right: 2rem !important;}
+.pt-0{padding-top: 0 !important;}
+.pt-5{padding-top: 0.5rem !important;}
+.pt-10{padding-top: 1rem !important;}
+.pt-15{padding-top: 1.5rem !important;}
+.pt-20{padding-top: 2rem !important;}
+.pb-0{padding-bottom: 0 !important;}
+.pb-5{padding-bottom: 0.5rem !important;}
+.pb-10{padding-bottom: 1rem !important;}
+.pb-15{padding-bottom: 1.5rem !important; }
+.pb-20{padding-bottom: 2rem !important;}
+.plr-0{padding-left: 0 !important;padding-right: 0 !important;}
+.plr-5{padding-left: 0.5rem !important;padding-right: 0.5rem !important;}
+.plr-10{padding-left: 1rem !important;padding-right: 1rem !important;}
+.plr-15{padding-left: 1.5rem !important;padding-right: 1.5rem !important;}
+.plr-20{padding-left: 2rem !important;padding-right: 2rem !important;}
+.ptb-0{padding-top: 0!important;padding-bottom: 0!important;}
+.ptb-5{padding-top: 0.5rem !important;padding-bottom: 0.5rem !important;}
+.ptb-10{padding-top: 1rem !important;padding-bottom: 1rem !important;}
+.ptb-15{padding-top: 1.5rem !important;padding-bottom: 1.5rem !important;}
+.ptb-20{padding-top: 2rem !important;padding-bottom: 2rem !important;}
+
+.ma-0{margin: 0!important;}
+.ma-5{margin: 0.5rem !important;}
+.ma-10{margin: 1rem !important;}
+.ma-15{margin: 1.5rem !important;}
+.ma-20{margin: 2rem !important;}
+
+.ml-0{margin-left: 0 !important;}
+.ml-5{margin-left: 0.5rem !important;}
+.ml-10{margin-left: 1rem !important;}
+.ml-15{margin-left: 1.5rem !important;}
+.ml-20{margin-left: 2rem !important;}
+.mr-0{margin-right: 0 !important;}
+.mr-5{margin-right: 0.5rem !important;}
+.mr-10{margin-right: 1rem !important;}
+.mr-15{margin-right: 1.5rem !important;}
+.mr-20{margin-right: 2rem !important;}
+.mt-0{margin-top: 0!important;}
+.mt-5{margin-top: 0.5rem !important;}
+.mt-10{margin-top: 1rem !important;}
+.mt-15{margin-top: 1.5rem !important;}
+.mt-20{margin-top: 2rem !important;}
+.mb-0{margin-bottom: 0!important;}
+.mb-5{margin-bottom: 0.5rem !important;}
+.mb-10{margin-bottom: 1rem !important;}
+.mb-15{margin-bottom: 1.5rem !important;}
+.mb-20{margin-bottom: 2rem !important;}
+.mlr-0{margin-left: 0!important;margin-right: 0!important;}
+.mlr-5{margin-left: 0.5rem !important;margin-right: 0.5rem !important;}
+.mlr-10{margin-left: 1rem !important;margin-right: 1rem !important;}
+.mlr-15{margin-left: 1.5rem !important;margin-right: 1.5rem !important;}
+.mlr-20{margin-left: 2rem !important;margin-right: 2rem !important;}
+.mtb-0{margin-top: 0!important;margin-bottom: 0!important;}
+.mtb-5{margin-top: 0.5rem !important;margin-bottom: 0.5rem !important;}
+.mtb-10{margin-top: 1rem !important;margin-bottom: 1rem !important;}
+.mtb-15{margin-top: 1.5rem !important;margin-bottom: 1.5rem !important;}
+.mtb-20{margin-top: 2rem !important;margin-bottom: 2rem !important;}
+
+
+.co-m{color: #1e92ed !important}/* 字主颜色 */
+.co-s{color: #ecad08 !important}/* 字辅颜色 */
+.co-er{color: #f10e47 !important}/* 字报错颜色 */
+.co-f{color: #fff !important}/* 字白色颜色 */
+.co-mbg{color: #f2f3f4 !important}/* 字主背景颜色 */
+
+.co-1{color: #111 !important;}
+.co-3{color: #333 !important;}
+.co-5{color: #555 !important;}
+.co-7{color: #777 !important;}
+.co-9{color: #999 !important;}
+.co-a{color: #aaa !important;}
+
+.ba-m{background-color: #1e92ed !important}
+.ba-s{background-color: #ecad08 !important}
+.ba-er{background-color: #f10e47 !important}
+.ba-f{background: #fff !important}
+.ba-mbg{background-color: #f2f3f4 !important}
+
+.ba-f9{background: #f9f9f9 !important}
+.ba-f6{background: #f6f6f6 !important}
+.ba-f3{background: #f3f3f3 !important}
+.ba-f1{background: #f1f1f1 !important}
+.ba-e8{background: #e8e8e8 !important}
+.ba-e5{background: #e5e5e5 !important}
+
+.cli-m{background-image: -webkit-linear-gradient(3deg,#2667ec,#19acee);-webkit-background-clip: text;color: transparent;}/* 文字主渐变颜色 */
+.cli-s{background-image: -webkit-linear-gradient(3deg,#ecad08,#fd600a);-webkit-background-clip: text;color: transparent;}/* 文字辅渐变颜色 */
+.bli-m{ background:linear-gradient(3deg,#2667ec,#19acee)  !important;}/* 背景主渐变颜色 */
+.bli-md{ background:linear-gradient(3deg,#1951c0,#0c7caf)  !important;}/* 背景辅渐变颜色 */
+.bli-s{ background:linear-gradient(3deg,#ecad08,#fd600a)  !important;}/* 背景辅渐变颜色 */
+
+
+.tr180{ transform: rotateZ(180deg)}
+.tr90{ transform: rotateZ(90deg)}
+
+/* 投影 */
+.shadow-l{box-shadow: 0 3px 10px rgba(0,0,0,0.1);}
+.shadow-d{box-shadow: 0 3px 10px rgba(0,0,0,0.3);}
+
+/*行块级变化*/
+.block{ display: block;}
+.none{display: none;}
+.inline-block{display: inline-block}
+.bs-bb{box-sizing: border-box;}
+
+/*盒子模型*/
+.box{display:-webkit-flex!important; display:flex !important;position:relative;}/*横排*/
+.box-col{-webkit-flex-direction:column;flex-direction:column;}/*竖排*/
+.box-wp{-webkit-flex-wrap:wrap;flex-wrap:wrap;}/*超出换行*/
+.box-ac{-webkit-align-items:center;align-items:center; }/*垂直居中对齐 */
+.box-ae{-webkit-align-items:end;align-items:end;}/*垂直下对齐 */
+.box-jc{-webkit-justify-content:center;justify-content:center;}/*居中对齐 */
+.box-je{-webkit-justify-content:flex-end;justify-content:flex-end;}/*右对齐 */
+.box-jsb{-webkit-justify-content:space-between;justify-content:space-between;}/*左右对齐 */
+.box-jsa{-webkit-justify-content:space-around;justify-content:space-around;}/*左右居中对齐*/
+.box-f1{position:relative;-webkit-flex:1;flex:1;}
+.box-f2{position:relative;-webkit-flex:2;flex:2;}
+.box-f3{position:relative;-webkit-flex:3;flex:3;}
+.box-f4{position:relative;-webkit-flex:4;flex:4;}
+.dian3{ overflow:hidden;text-overflow:ellipsis; white-space:nowrap;}/*单行文字超出显示...*/
+
+.brr-y,.brr-y::after{border-radius: 50%;}
+.brr-20,.brr-20::after{ border-radius:2rem }
+.brr-10,.brr-10::after{ border-radius:1rem }
+.brr-5,.brr-5::after{ border-radius:0.5rem }
+
+.br {position: relative}
+.br::after{
+    content: "";
+    pointer-events: none; /* 防止点击触发 */
+    box-sizing: border-box;
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    left: 0;
+    top: 0;
+    border:1px solid #eee;
+    transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+.hb-t::after{ border-width: 1px 0 0 0;}
+.hb-r::after{ border-width: 0 1px 0 0;}
+.hb-b::after{ border-width: 0 0 1px 0;}
+.hb-l::after{ border-width: 0 0 0 1px;}
+.hb-tb::after{ border-width:  1px 0;}
+.hb-lr::after{ border-width: 0 1px ;}
+.brc-f::after{border-color:#fff;}
+.brc-f1::after{border-color:#f1f1f1;}
+.brc-e1::after{border-color:#e1e1e1;}
+.brc-d1::after{border-color:#d1d1d1;}
+
+.fl{ float:left !important;}
+.fr{ float:right !important;}
+.clear:before,.clear:after{ content: " "; display: table;}
+.clear:after {clear: both;}
+.tl{ text-align: left}
+.tc{ text-align: center}
+.tr{ text-align: right}
+
+/*字体 1rem=14px */
+.fz10{font-size: 1rem;}
+.fz12{font-size: 1.2rem;}
+.fz14{font-size: 1.4rem;}
+.fz16{font-size: 1.6rem;}
+.fz18{font-size: 1.8rem;}
+.fz20{font-size: 2rem;}
+.fz22{font-size: 2.2rem;}
+.fz24{font-size: 2.4rem;}
+.fz26{font-size: 2.6rem;}
+.fz28{font-size: 2.8rem;}
+.fz30{font-size: 3rem;}
+.fz40{font-size: 4rem;}
+.fz50{font-size: 5rem;}
+.fz60{font-size: 6rem;}
+.fw{font-weight: bold;}
+.fw-n{font-weight: normal;}
+
+/* 父类有宽时使用宽度比例 */
+.w20{width: 20%!important;}/* 1/5 */
+.w25{width: 25%!important;}/* 1/4 */
+.w33{width: 33.33%!important;}/* 1/3 */
+.w50{width: 50%!important;}/* 1/2 */
+.w80{width: 80%!important;}
+.w100{width: 100%!important;}
+.h100{height: 100%!important;}
+/* 父类无宽时使用宽度 */
+.w2{width: 2rem!important;}
+.w3{width: 3rem!important;}
+.w4{width: 4rem!important;}
+.w5{width: 5rem!important;}
+.w6{width: 6rem!important;}
+.w7{width: 7rem!important;}
+.w8{width: 8rem!important;}
+
+/*正方形 搭配brr-y使用可以变成圆形*/
+.wh2{width: 2rem!important; height: 2rem!important;}
+.wh3{width: 3rem!important;height: 3rem!important;}
+.wh4{width: 4rem!important;height: 4rem;}
+.wh5{width: 5rem;height: 5rem!important;}
+.wh6{width: 6rem!important;height: 6rem!important;}
+.wh7{width: 7rem!important;height: 7rem!important;}
+.wh8{width: 8rem!important;height: 8rem!important;}
+
+
+/*定位快速基础*/
+.po-r{position: relative;}
+.po-ab{position: absolute;}
+.po-fix{position: fixed;}
+.in-tl{top: 0; left: 0;}
+.in-tr{top: 0; right: 0;}
+.in-bl{bottom: 0; left: 0;}
+.in-br{bottom: 0; right: 0;}
+.in-c{top: 50%; left: 50%; transform: translate(-50%)}
+.in-lc{ left: 50% !important; transform: translateX(-50%)}
+.in-vc{ top: 50% !important; transform: translateY(-50%)}
+.out-bl{ top: 100%; left: 0;}
+.out-br{ top: 100%; right: 0;}
+.out-tl{ bottom: 100%; left: 0;}
+.out-tr{ bottom: 100%; right: 0;}
+.z-i1{z-index: 9;}
+.z-i2{z-index: 99;}
+.z-i3{z-index: 999;}
+.z-i4{z-index: 9999;}
+.z-i5{z-index: 99999;}

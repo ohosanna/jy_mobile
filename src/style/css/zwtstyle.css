@@ -1,0 +1,72 @@
+/*登录页修改*/
+.login-page{  width: 100%; height: 100% !important; position: absolute; left: 0; top: 0; box-sizing: border-box;}
+.login-bg{ background-size:cover; background-position: 50% 50%; background-repeat: no-repeat;  width: 100%; height: 100% !important; position: absolute; left: 0; top: 0; box-sizing: border-box;}
+.login-head{ position: fixed; width: 100%; background: rgba(255,255,255,0.6); left: 0; top: 0; font-size: 18px; color: #333; padding: 10px 10%; z-index: 999;}
+.login-bg .row{border-top: none;padding: 0 !important;}
+.login-box{ width: 300px; box-sizing: border-box; position: relative; margin: 0; position: absolute; top: 50%; left: 60%; transform: translateY(-50%)}
+.login-box-body{ background: rgba(255,255,255,0.9);padding:60px 30px; }
+.login-left-txt{ position: absolute; width: 320px;  right:100% ; top: 50%; background:rgba(50,50,50,0.7); color: #fff; transform: translateY(-50%); box-sizing: border-box; padding: 60px 30px; }
+.login-left-txt .chinese{ font-size: 18px; line-height: 24px; padding-top: 10px;}
+.login-left-txt .english{ border-bottom: 1px solid #00a7d0; padding-bottom: 10px;font-size: 16px; line-height: 20px;}
+.login-box-msg{ color: #1E9FFF; font-size: 20px; text-align: left; padding: 0 0 30px 0;}
+.login-box .form-control{border: none; border-radius: 18px; }
+.login-box  .btn-primary{ border-radius: 18px;}
+
+/*按钮统一修改*/
+/*.btn-primary{ background: #1E9FFF; border-color: #1E9FFF;}*/
+/*.btn-primary:hover{background: #0b8cf0; border-color: #0b8cf0;}*/
+
+
+/*主页样式调整*/
+.layui-layout-admin .header-demo { border-bottom:2px solid #4E5465;}
+.larry-side-menu{background-color: #4E5465;}
+.larry-side-menu:hover{background-color: #3e4352;}
+
+.layui-nav-tree .layui-nav-item a:hover{background-color:#4E5465}
+.layui-nav-tree .layui-nav-bar {background-color: #1E9FFF;}
+.layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-this>a:hover {
+    background-color: #1E9FFF;
+    color: #fff;
+}
+
+.layui-layout-admin .layui-side {
+    top: 52px;
+}
+.layui-layout-admin .layui-body {
+    top: 52px; border-left: none;
+    box-sizing: border-box; 
+    bottom: 0;
+}
+.layui-tab{ margin: 0; border: none; border-radius: 0;}
+.larry-tab-box>.layui-tab-title {border-bottom: none;height: auto;  background: #f2f4f9}
+.layui-tab-title li {height: 36px; line-height: 36px; color: #535353; margin: 0;;}
+.larry-tab-box>.layui-tab-title .layui-this {
+    color: #fff;
+    background-color: #4E5465;
+    height: 36px; line-height: 36px;
+}
+.layui-tab-card>.layui-tab-title .layui-this:after {
+    border-top: none;
+    border-width: 0 !important; 
+    border-bottom-color: transparent;
+}
+.layui-tab-bar {
+    width: 30px;
+    height: 36px;
+    border: none;
+    background: rgba(255,255,255,0.98);
+    color: #555;
+}
+.layui-tab-item {
+    padding: 0 ;
+}
+.layui-tab-content{ box-sizing: border-box; padding: 1rem;}
+
+.ui-jqgrid-pager{ margin-top: -1px !important;}
+.label {
+    display: inline;
+    line-height:0.8rem ;
+    padding: .2rem .6rem ;
+}
+.control-label{ padding-top: 0 !important; line-height: 34px !important;}
+.radio-inline{ line-height: 22px !important;}

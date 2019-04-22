@@ -1,0 +1,142 @@
+
+
+.trn {
+    -webkit-transition: all 0.1s ease-out 0s;
+    -moz-transition: all 0.1s ease-out 0s;
+    transition: all 0.1s ease-out 0s;
+}
+.trn3 {
+    -webkit-transition: all 0.3s ease-out 0s;
+    -moz-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+.trn5 {
+    -webkit-transition: all 0.5s ease-out 0s;
+    -moz-transition: all 0.5s ease-out 0s;
+    transition: all 0.5s ease-out 0s;
+}
+.r45{transform:rotate(45deg); -webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);}/*旋转45度  ie8以及以下没作用*/
+.r90{transform:rotate(90deg); -webkit-transform:rotate(90deg);-moz-transform:rotate(90deg);}/*旋转90度  ie8以及以下没作用*/
+.r180{transform:rotate(180deg); -webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);}/*旋转90度  ie8以及以下没作用*/
+
+.r45{transform:rotate(45deg); -webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);}/*旋转45度  ie8以及以下没作用*/
+.r90{transform:rotate(90deg); -webkit-transform:rotate(90deg);-moz-transform:rotate(90deg);}/*旋转90度  ie8以及以下没作用*/
+.r180{transform:rotate(180deg); -webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);}/*旋转90度  ie8以及以下没作用*/
+
+
+
+@keyframes rotation{
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+
+.an-rotates {
+    -webkit-transform: rotate(360deg);
+    animation: rotation 2s ease-out infinite;
+    -moz-animation: rotation 2s ease-out infinite;
+    -webkit-animation: rotation 2s ease-out infinite;
+    -o-animation: rotation 2s ease-out infinite;
+}
+
+.an {
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.an_ {
+    -webkit-animation-duration: .1s;
+    animation-duration: .1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.an-15 {
+    -webkit-animation-duration: .15s;
+    animation-duration: .15s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.rightin-enter-active {
+    animation-delay: .2s;
+    -webkit-animation-delay: .2s;
+    animation-name: fadeInRight;
+    -webkit-animation-name: fadeInRight;
+}
+
+.rightin-leave-active {
+    animation-name: fadeOutLeft;
+    -webkit-animation-name: fadeOutLeft;
+}
+
+.leftin-leave-active {
+    animation-name: fadeOutLeft;
+    -webkit-animation-name: fadeOutLeft;
+}
+
+.leftin-enter-active {
+    animation-name: fadeInLeft;
+    -webkit-animation-name: fadeInLeft;
+}
+
+.upin-enter-active {
+    animation-name: fadeInUp;
+    -webkit-animation-name: fadeInUp;
+}
+
+.upin-leave-active {
+    animation-name: fadeOutUp;
+    -webkit-animation-name: fadeOutUp;
+}
+
+.fadein-enter-active {
+    animation-name: zoomIn;
+    -webkit-animation-name: zoomIn;
+}
+
+.fadein-leave-active {
+    animation-name: fadeOut;
+    -webkit-animation-name: fadeOut;
+}
+.zoomin-enter-active {
+    animation-delay: .1s;
+    -webkit-animation-delay: .1s;
+    animation-name: fadeIn;
+    -webkit-animation-name: fadeIn;
+}
+
+.zoomin-leave-active {
+    animation-name: zoomOut;
+    -webkit-animation-name: zoomOut;
+}
+.fadein2-enter-active {
+    animation-name:  fadeIn;
+    -webkit-animation-name:  fadeIn;
+}
+
+.fadein2-leave-active {
+    animation-name: fadeOut;
+    -webkit-animation-name: fadeOut;
+}
+
+.updown-enter-active {
+    animation-name: fadeInUp;
+    -webkit-animation-name: fadeInUp;
+}
+
+.updown-leave-active {
+    animation-name: fadeOutDown;
+    -webkit-animation-name: fadeOutDown;
+}
+
+.downin-enter-active {
+    animation-name: fadeInDown;
+    -webkit-animation-name: fadeInDown;
+}
+
+.downin-leave-active {
+    animation-name: fadeOutUp;
+    -webkit-animation-name: fadeOutUp;
+}

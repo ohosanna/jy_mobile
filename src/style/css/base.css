@@ -1,0 +1,28 @@
+
+@import "~@/assets/icon/iconfont.css";
+html {
+    font-size: 87.5% !important;
+}
+
+html * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    position:absolute;
+    width: 100%;
+    min-height: 100%;
+    background: #f2f3f4;
+    font-family:  -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+}
+
+em {
+    font-style: normal;
+}
+
+.btn{ outline: none !important;}
+
