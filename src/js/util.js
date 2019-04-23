@@ -106,4 +106,14 @@ export const clearUrl=(url)=>{
       return url
   }
 }
+
+
+export const isIframe=(url)=>{
+  if(url.indexOf('.html')!=-1){
+      return '/home';
+  }else{
+    return{name:url} ;
+  }
+}
+
   

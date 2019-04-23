@@ -17,12 +17,13 @@ axios.defaults.withCredentials = true;
 // 请求拦截器
 axios.interceptors.request.use(
   config => {
-    //console.log(config.data)
-      
+    // console.log(config.data)
+    // config.data=config.data+"v=kkkkk"
     //config.data=JSON.stringify(config.data)
     // config.headers={
     //     "content-Type":'application/x-www-form-urlencoded; charset=UTF-8'
     // }
+    //localStorage.token
     //config.headers.Authorization = `token 6cc502869d0c67a431fe4d532a0fac48955759bb`
     // config.headers.post={
     //     "content-Type":'application/json; '

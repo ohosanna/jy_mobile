@@ -6,9 +6,9 @@
             <div class="menu-ul-ex box box-ac trn3" :class="mlkey==ulActive?'active':''" @click="menuUlClick(mlkey)">
                 <i :class="ml.icon"></i> 
                 <div class="box-f1 pl-5">{{ml.name}}</div>
-                <icon name="xiangxia1" class="trn3 block fz10" :class="chopen.indexOf(mlkey)!=-1?'tr180':''"/>
+                <icon name="xiangxia1" class="trn3 block fz10" :class="mlkey==ulActive?'tr180':''"/>
             </div>
-            <div class="menu-ul-ch" v-if="ml.list.length>0 && ml.list && chopen.indexOf(mlkey)!=-1">
+            <div class="menu-ul-ch" v-if="ml.list.length>0 && ml.list && mlkey==ulActive">
                 <div   v-for="(mll,mllkey) in ml.list" :key="mllkey" >
                 <div  class="menu-list" v-if="mll.url" :class="mlkey==ulActive&&mllkey==liActive?'active':''" @click="menusclick(mll,mlkey,mllkey)">
                 <i :class="mll.icon"></i> {{mll.name}}
@@ -38,41 +38,40 @@ created(){
     
     this.$US.getMenu().then(res=>{
         if(res.code==0){
-            //console.log(res.menuList);
             this.menuList=res.menuList
         }else{
             console.log(res.msg);
         }
-        
     })
     this.$bus.$on('tohome', (p) => {
-        this.ulActive=-1
-        this.liActive=-1
-        this.chopen=[]
+        this.ulActive=p.i
+        this.liActive=p.j
     })
+    this.$bus.$on('rtClick', (p) => {
+        this.ulActive=p.i;
+        this.liActive=p.j;
+
+    })
+    
 },
 methods:{
     menusclick(p,i,j){
-        this.$bus.$emit("onmenu",p)
-        if(p.menuId==2){
-            p.url=this.$fun.clearUrl(p.url) //过滤url的其他杂质
-        }
-       if(p.url.indexOf('.html')!=-1){
-           this.$router.push('/home');
-       }else{
-           this.$router.push({name:p.url});
-       }
+        p.i=i;p.j=j; //把选中的双层id附带在菜单条p上
+        this.$bus.$emit("onmenu",p)//往外面抛带此菜单条的事件
+
+        if(p.menuId==2){p.url=this.$fun.clearUrl(p.url)}//因为要演示demo，特殊把menuid=2的就是用户管理这个菜单条做成vue路由路径
+        this.$router.push(this.$fun.isIframe(p.url))//判单url是否带.html，带的话就用iframe去显示，不带就跳相应vue的路由url
         
         this.ulActive=i;
         this.liActive=j;
     },
     menuUlClick(i){
         this.ulActive=i;
-        if(this.chopen.indexOf(i)==-1){
-            this.chopen.push(i)
-        }else{
-            this.chopen.splice(this.chopen.indexOf(i),1)
-        }
+        // if(this.chopen.indexOf(i)==-1){
+        //     this.chopen.push(i)
+        // }else{
+        //     this.chopen.splice(this.chopen.indexOf(i),1)
+        // }
     }
 }
 

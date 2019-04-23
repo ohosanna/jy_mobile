@@ -37,7 +37,7 @@ export default new Router({
         requireAuth:true
       },
       component: user
-    },
+    }
     
   ]
 });

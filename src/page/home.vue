@@ -18,26 +18,20 @@ components: {},
 //创建vue时的钩子
  created(){
      this.$bus.$on('rtClick', (p) => {
-        console.log('forTab:'+p.url);
-        this.loadIframe(p.url)
-        
+         this.loadIframe(p.url)
     })
     this.$bus.$on('onmenu', (p) => {
-        console.log('forMenu:'+p.url);
         this.loadIframe(p.url)
-        
     })
-
+    this.$bus.$on('tohome', (p) => {
+        this.loadIframe(p.url)
+    })
  },
-//挂载vue时的钩子
-mounted(){},
-//当前vue使用的函数
 methods:{
     loadIframe(url){
         this.ifsrc=urlc.BASEURL+urlc.BASEPORT+"/"+url;
-        //document.getElementById('homeIframe').contentWindow.location.reload(true);
     }
-},
+}
 }
 </script>
 <style>

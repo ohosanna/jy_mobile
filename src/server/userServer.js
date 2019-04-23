@@ -10,6 +10,7 @@ export function login(data) {
             .then((res) => {
                 resolve(res)
             })
+            
             .catch((err) => {
                 console.log('没有登录:'+err);
             })

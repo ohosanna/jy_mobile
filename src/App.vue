@@ -15,7 +15,6 @@
 import h from "components/head.vue";
 import menus from "components/menus.vue";
 import routerTab from "components/routerTab.vue";
-
 export default {
   name: "app",
   data(){

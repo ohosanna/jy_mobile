@@ -1,8 +1,11 @@
 <template>
-<div class='routerTab box box-ac box-wp' v-if="tabs.length>0">
-    <div class="tab-list trn po-r" v-for="( tl,tlkey) in tabs" :key="tlkey" :class="tlkey==tabActive?'active':''" @click="routerTabClick(tl,tlkey) ">
-        <i :class="tl.icon"></i> {{tl.name}}
-        <i class="fa fa-close" v-if="tl.menuId!='00'" @click.stop="deleteTab(tlkey)"></i>
+<div class='routerTab ' >
+    <div class="box box-ac">
+        <div class="tab-list trn po-r" :class="-1==tabActive?'active':''" @click="routerTabClick(kzt,-1) "><i :class="kzt.icon"></i> {{kzt.name}}</div>
+        <div class="tab-list trn po-r" v-for="( tl,tlkey) in tabs" :key="tlkey" :class="tlkey==tabActive?'active':''" @click="routerTabClick(tl,tlkey) ">
+            <i :class="tl.icon"></i> {{tl.name}}
+            <i class="fa fa-close" v-if="tl.menuId!='00'" @click.stop="deleteTab(tlkey)"></i>
+        </div>
     </div>
 </div>
 </template>
@@ -11,45 +14,47 @@ export default {
 name:'routerTab',
 data () {
     return {
-        tabs:[{name:"控制台",icon:"fa fa-home",url:"main.html",menuId:"00"}],
-        tabids:['00'],
-        tabActive:0
+        kzt:{name:"控制台",icon:"fa fa-home",url:"main.html",menuId:"00",i:-1,j:-1},
+        tabs:[],
+        tabids:[],
+        tabActive:-1
     }
 },
 
  created(){
     this.$bus.$on('onmenu', (p) => {
-        if(this.tabids.indexOf(p.menuId)==-1){
-            this.tabids.push(p.menuId);
-            this.tabs.push(p);
+        var midIndex=this.tabids.indexOf(p.menuId)
+        if(midIndex!=-1){
+            console.log(midIndex);
+            
+            this.tabids.splice(midIndex,1);
+            this.tabs.splice(midIndex,1);
         }
-        //console.log(this.tabids.indexOf(p.menuId));
+        this.tabids.unshift(p.menuId);
+        this.tabs.unshift(p);
         this.tabActive=this.tabids.indexOf(p.menuId)
-        //console.log(this.tabids);
     })
-    //console.log(this.tabActive);
-    if(this.tabActive==0){
+    if(this.tabActive==-1){
         this.$router.push('/home')
     }
-    
  },
 
 methods:{
     routerTabClick(tl,key){
-        console.log(tl);
-        if(tl.url.indexOf('.html')==-1){
-           this.$router.push({name:tl.url});
-        }else{
-            this.$router.push('/home');
-        }
+        this.$router.push(this.$fun.isIframe(tl.url))//判单url是否带.html，带的话就用iframe去显示，不带就跳相应vue的路由url
         this.tabActive=key
         this.$bus.$emit("rtClick",tl)
     },
     deleteTab(key){
         this.tabs.splice(key,1);
-        this.$bus.$emit("tohome",this.tabs[key])
-        this.$router.push('/home');
-        
+        var showRouter=[]
+        if(this.tabs.length>0){
+            showRouter=this.tabs[0]
+        }else{
+            showRouter=this.kzt
+        }
+        this.$bus.$emit("tohome",this.tabs[0]);
+        this.$router.push(this.$fun.isIframe(showRouter.url))//判单url是否带.html，带的话就用iframe去显示，不带就跳相应vue的路由url
     }
 },
 }
