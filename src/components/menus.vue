@@ -44,8 +44,8 @@ created(){
         }
     })
     this.$bus.$on('tohome', (p) => {
-        this.ulActive=p.i
-        this.liActive=p.j
+        this.ulActive=p.i;
+        this.liActive=p.j;
     })
     this.$bus.$on('rtClick', (p) => {
         this.ulActive=p.i;
@@ -67,6 +67,7 @@ methods:{
     },
     menuUlClick(i){
         this.ulActive=i;
+        this.liActive=-1;
         // if(this.chopen.indexOf(i)==-1){
         //     this.chopen.push(i)
         // }else{
@@ -78,7 +79,7 @@ methods:{
 }
 </script>
 <style>
-.menus{ width: 18%;  box-sizing: border-box;  z-index: 111;background: #393D49; height: calc(100% - 4rem); top: 4rem; left: 0; padding-bottom: 2rem; overflow: hidden;}
+.menus{ width: 15%;  box-sizing: border-box;  z-index: 111;background: #393D49; height: calc(100% - 4rem); top: 4rem; left: 0; padding-bottom: 2rem; overflow: hidden;}
 .menu-box{ width:calc(100% + 2rem); padding-right: 0.7rem; height: 100%; overflow-y:scroll; overflow-x: hidden;}
 .menu-ul{ color: #c2c2c2;}
 .menu-ul-ex{ padding: 1rem ; cursor: pointer; position: relative;}

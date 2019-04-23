@@ -49,10 +49,10 @@ export default {
 </script>
 <style>
 
-.rv{ position: absolute; width: 82%; right: 0; top: 4rem; z-index: 99; padding: 1rem; min-height: calc(100% - 4rem);}
+.rv{ position: absolute; width: 85%; right: 0; top: 4rem; z-index: 99; padding: 1rem; min-height: calc(100% - 4rem);}
 .menus-btn{ cursor: pointer; width: auto; padding: 0 0.5rem; z-index: 99999; position: fixed; text-align: center; bottom: 0; left: 0; background: #596074; color: #c2c2c2; line-height: 2rem;height: 2rem;}
 .menus-btn i{display: inline-block;}
 .menus-btn:hover{ background: #4E5465; color: #fff;}
-.w15{ width: 18%;}
+.w15{ width: 15%;}
 </style>
 

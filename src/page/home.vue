@@ -35,6 +35,6 @@ methods:{
 }
 </script>
 <style>
-.home{ width: 100%; height:calc(100% - 68px); padding: 1rem; position: absolute; bottom: 0; left:0 ;}
+.home{ width: 100%; height:calc(100% - 34px); padding: 1rem; position: absolute; bottom: 0; left:0 ;}
 .home iframe{ width: 100%; height: 100%; position: relative; border: 0;}
 </style> 
