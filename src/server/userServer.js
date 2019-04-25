@@ -67,6 +67,19 @@ export function getCommunity(data) {
             })
     });
 }
+export function getCommunityAll(data) {
+    return new Promise((resolve, reject) => {
+        ax.get('/base/community/treelistall',data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('获取数据权限树失败:'+err);
+            })
+    });
+}
+
+
 
 export function getRole() {
     return new Promise((resolve, reject) => {

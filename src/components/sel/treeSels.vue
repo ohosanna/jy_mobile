@@ -1,13 +1,13 @@
 <template>
 <div class='com-select box box-ac' >
-    <label class="fz10 co-5 block" v-if="label"><span class="co-er" v-if="necessary">*</span> {{label}}</label>
+    <label class="fz10 co-5 block" v-if="label"><span class="co-er" v-if="necessary">*</span> {{label}}：</label>
     <tree 
     v-model="values" 
     :multiple="multiple"
     :options="options" 
     :alwaysOpen="alwaysOpen"
     :placeholder="placeholder"  
-    :load-options="loadOptions"  
+    :load-options="isloadOption?loadOptions:()=>{}"  
     :openOnClick="!isTrue"
     @select="onTreeSel" 
     @input="inp" 
@@ -19,14 +19,15 @@
 // import the component
   import tree from '@riophae/vue-treeselect'
   // import the styles
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  //import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
 name:'treeSelect',
 props:{
-    label:{type:String,default:"树"},
+    label:{type:String,default:""},
     necessary:{type:Boolean,default:false},
     multiple:{type:Boolean,default:true},
     alwaysOpen:{type:Boolean,default:false},
+    isloadOption:{type:Boolean,default:true},
     optionData:Array,
     valuess:Array,
     value:Number,
@@ -58,7 +59,14 @@ components: {tree},
  watch:{
      optionData(val){
         if(val.length>0){
-            this.options=this.coption(val,0)
+            if(this.isloadOption){
+                this.options=this.coption(val,0);
+            }else{
+                this.options=val.map(item=>{
+                    return { id:item.id,label:item[this.id]}
+                })
+            }
+            
         }else{
             this.options=[]
         }
@@ -75,16 +83,13 @@ components: {tree},
 
 methods:{
     onTreeSel(n){
-        
-        //this.inSel.push(this.values);
-        
+        //this.inSel.push(this.values); 
     },
     inp(v,i){
         this.$emit("treeChange",v)
     },
     des(v){
         //console.log('des');
-        
     },
     coption(data,pid){
         var kk=[]

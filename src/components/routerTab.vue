@@ -36,7 +36,8 @@ data () {
         this.tabs.unshift(p);
         this.tabActive=this.tabids.indexOf(p.menuId)
         setTimeout(()=>{this.setW()},20)
-        this.$refs.tabSocall.scrollLeft=0
+        if(this.$refs.tabSocall){
+        this.$refs.tabSocall.scrollLeft=0}
     })
     if(this.tabActive==-1){
         this.$router.push('/home')

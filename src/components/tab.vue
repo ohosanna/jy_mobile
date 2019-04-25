@@ -4,11 +4,15 @@
         <table>
             <thead>
                 <tr>
+                    <td v-if="hasOrder"></td>
+                    <td v-if="hasChoise"><choice :onSelect="selectOn.length==tabTds.length" @choiceChange="PchoiceChange"  type="checkbox"/></td>
                     <th v-for="(th,thkey) in tabTh" :key="thkey">{{th}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(td,trkey) in tabTds" :key="trkey">
+                    <td v-if="hasOrder">{{trkey+1}}</td>
+                    <td v-if="hasChoise"><choice :onSelect="selectOn.indexOf(trkey)!=-1" @choiceChange="choiceChange(trkey)"  type="checkbox"/></td>
                     <td v-for="(tds,tdskey) in td" :key="tdskey" >
                         <P class="ma-0" v-if="tds!='operation' && tabThe.indexOf(specialField)!=tdskey">
                             <span v-if="addADom.length<=0||tdskey<addADom[0]||tdskey>addADom[1]">{{tds}}</span>
@@ -27,7 +31,7 @@
                 
             </tbody>
         </table>
-        <paging :dataCount="records" :startPage="page" :pagesize="pagesize" @change="pageChange" />
+        <paging :dataCount="records" :startPage="page"  :pagesize="pagesize" @change="pageChange" />
     </div>
 </template>
 <script>
@@ -36,6 +40,8 @@
 export default {
 name:'tab',
 props:{
+    hasOrder:{type:Boolean,default:false},
+    hasChoise:{type:Boolean,default:false},
     records:Number,
     page:Number,
     pagesize:Number,
@@ -47,21 +53,36 @@ props:{
 },  
 data () {
  return {
+    selectOn:[],
     tabTds:[],
     hasOperation:this.tabThe.indexOf('operation')
 }
 },
-//实例组件
-components: {},
+
 //创建vue时的钩子
  created(){
-     
     this.makeTd();
  },
-//挂载vue时的钩子
-mounted(){},
+
 //当前vue使用的函数
 methods:{
+    PchoiceChange(){
+        if(this.selectOn.length==this.tabTds.length){
+            this.selectOn=[]
+        }else{
+            for(var i=0;i<this.tabTds.length;i++){
+                this.selectOn.push(i)
+            }
+        }
+    },
+    choiceChange(key){
+        var hasin=this.selectOn.indexOf(key)
+        if(hasin==-1){
+            this.selectOn.push(key)
+        }else{
+            this.selectOn.splice(hasin,1)
+        }
+    },
     emitKey(tr,td){
         this.$emit('aClick',tr,td);
     },
@@ -82,12 +103,12 @@ methods:{
             outd.push(ind)
             
         })
-        this.tabTds=outd
-        //console.log(this.tabTds);
+        this.tabTds=outd;
     },
-    pageChange(s,e,p,pz){
-        this.$emit("pageChange",s,e,p,pz)
+    pageChange(p,pz){
+        this.$emit("pageChange",p,pz)
     }
+
 },
 watch:{
     tabTd(val){

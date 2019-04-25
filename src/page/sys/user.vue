@@ -16,7 +16,7 @@
     </div>
 
     <loading :loading="isloading" >
-        <tab :tabTh="tabTh" :tabTd="tabTd" :tabThe="tabThe" :records="records" 
+        <tab :tabTh="tabTh" :tabTd="tabTd" :tabThe="tabThe" :records="records"  :hasChoise="isTrue" :hasOrder="isTrue"
         specialField="status" :page="page" :pagesize="pagesize" @pageChange="pageChange"  class="mt-10" v-if="records">
         <span class="label " slot="sf" slot-scope="{tdss}" :class="tdss==1?'label-success':'label-danger'">{{tdss==1?'正常':'禁用'}}</span>
         </tab>
@@ -27,22 +27,30 @@
 <div class="user-add mt-10" v-else>
     <div class="panel panel-default" style="">
         <div class="panel-heading">新增用户</div>
-        <div class="box box-ac pa-15 pb-5">
-            <div class="box-f1">
-                <treeSel label="公司名称：" :necessary="isTrue"  :optionData="companys"  :value="add.company" :multiple="!isTrue" @treeChange="(v)=>{this.add.company=v;getCommunity(v);}" class="mb-10" id="companyName"/>
-                <treeSel label="项目名称：" :optionData="communitys"  :value="add.community" :multiple="!isTrue" @treeChange="(v)=>{add.community=v}" class="mb-10"  id="communityName"/>
-                <sel label="用户账号：" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" :value="add.username" class="mb-10" @inpChange="(v)=>{add.username=v}"/>
-                <sel label="用户姓名：" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.petName" class="mb-10" @inpChange="(v)=>{add.petName=v}"/>
-                <sel label="用户密码：" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.password" class="mb-10" @inpChange="(v)=>{add.password=v}"/>
-                <sel label="用户角色：" :option="roleOption" :value="add.roleEx" id="typeSel" class="mb-10" @change="(v,id)=>{add.roleEx=v; add.roleId=id}"/>
-                <sel label="用户邮箱：" :isSel="!isTrue" :isInp="isTrue"  :value="add.email" class="mb-10" @inpChange="(v)=>{add.email=v}"/>
-                <sel label="用户手机：" :isSel="!isTrue" :isInp="isTrue"  :value="add.mobile" class="mb-10" @inpChange="(v)=>{add.mobile=v}"/>
+        <div class="box  pa-15 pb-5">
+            <div class="box-f1 pr-10">
+                <treeSel label="公司名称" :necessary="isTrue"  :optionData="companys"  :value="add.company" :multiple="!isTrue" @treeChange="(v)=>{this.add.company=v;getCommunity(v);}" class="mb-10" id="companyName"/>
+                <treeSel label="项目名称" :optionData="communitys"  :value="add.community" :multiple="!isTrue" @treeChange="(v)=>{add.community=v}" class="mb-10"  id="communityName"/>
+                <sel label="用户账号" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" :value="add.username" class="mb-10" @inpChange="(v)=>{add.username=v}"/>
+                <sel label="用户姓名" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.petName" class="mb-10" @inpChange="(v)=>{add.petName=v}"/>
+                <sel label="用户密码" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.password" class="mb-10" @inpChange="(v)=>{add.password=v}"/>
+                <sel label="用户角色" :option="roleOption" :value="add.roleEx" id="typeSel" class="mb-10" @change="(v,id)=>{add.roleEx=v; add.roleId=id}"/>
+                <sel label="用户邮箱" :isSel="!isTrue" :isInp="isTrue"  :value="add.email" class="mb-10" @inpChange="(v)=>{add.email=v}"/>
+                <sel label="用户手机" :isSel="!isTrue" :isInp="isTrue"  :value="add.mobile" class="mb-10" @inpChange="(v)=>{add.mobile=v}"/>
+                <div class='com-select box box-ac mtb-5' >
+                    <label class="fz10 co-5 block">状态：</label>
+                    <choice :onSelect="add.status==2" @choiceChange="add.status=2" label="禁用"/>
+                    <choice :onSelect="add.status==1" @choiceChange="add.status=1" label="正常" class="ml-10"/>
+                </div>
             </div>
-            <div class="w50"></div>
+            <div class="w50 pl-20">
+                <div class="fz-12 co-3 pa-5 mb-5">数据权限</div>
+                <treeSel :optionData="companysall"  :valuess="add.companyall" :multiple="isTrue" :alwaysOpen="isTrue" :isloadOption="!isTrue" @treeChange="(v)=>{add.companyall=v}" id="name"/>
+            </div>
         </div>
         <div class="tc pb-15">
-            <a class="btn btn-primary" >确定</a>
-		    <a class="btn btn-default ml-10" @click="isList=true" >返回</a>
+            <a class="btn btn-primary btn-lg plr-20" >确定</a>
+		    <a class="btn btn-default ml-10 btn-lg plr-20" @click="isList=true" >返回</a>
         </div>
     </div>
 </div>
@@ -59,8 +67,10 @@ export default {
             companys:[],
             roleOption:[],
             communitys:[],
+            companysall:[],
             // 查询数据
             company:null,
+            
             community:null,
             username:"",
             petName:"",
@@ -69,6 +79,7 @@ export default {
             
             //添加数据
             add:{
+                companyall:[],
                 company:null,
                 community:null,
                 username:"",
@@ -78,8 +89,10 @@ export default {
                 roleEx:"",
                 email:"",
                 mobile:"",
-                status:""
+                status:1,
+
             },
+
 
             //表格
             records:0,
@@ -126,6 +139,10 @@ export default {
             this.$US.getCompany().then(res=>{
                 this.companys=res;
             })
+            //获取数据权限配置项
+            this.$US.getCommunityAll().then(res=>{
+                this.companysall=res;
+            })
         },
         //获取项目配置项
         getCommunity(companyId){
@@ -136,6 +153,8 @@ export default {
                 })
             }
         },
+
+        
         //成功获取表格数据后
         getUserListAfter(){
             this.isloading=true
@@ -165,7 +184,7 @@ export default {
                  
              })
         },
-        pageChange(s,e,p,pz){
+        pageChange(p,pz){
             this.page=p
             this.pagesize=pz
             this.getUserListAfter()
@@ -174,5 +193,5 @@ export default {
 }
 </script>
 <style>
-.user-add .com-select label{ min-width: 7rem; text-align: right;}
+.user-add .com-select>label{ min-width: 7rem; text-align: right;}
 </style>

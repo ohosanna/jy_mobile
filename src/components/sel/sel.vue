@@ -1,6 +1,6 @@
 <template>
   <div class='com-select box box-ac' >
-    <label class="fz10 co-5 block" v-if="label"><span class="co-er" v-if="necessary">*</span> {{label}}</label>
+    <label class="fz10 co-5 block" v-if="label"><span class="co-er" v-if="necessary">*</span> {{label}}：</label>
     <date-sel  v-if="dropdownType=='dateAndDate' || dropdownType=='date'" :dateType="dropdownType" :value="value" @dateChange="dateChange" />
     <tree-sel  v-else-if="dropdownType=='tree'"  :option="option" :value="valueC==''?[]:[valueC]" @treeChange="treeChange"/>
     <div v-else class="com-select-right box-f1 po-r" :class="[showDd?'open':'',positionClass,dropdownType=='moreSel'?'msel':'']" :id="id" >

@@ -6,6 +6,7 @@ import store from './store';
 //css的引用
 import './style/css/main.css'
 import './assets/icon/iconfont.js'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 //公用组件的引用
 import icon from "components/icon.vue"
@@ -16,6 +17,7 @@ import tab from "components/tab.vue"
 import paging from "components/paging.vue"
 import def from "components/def.vue"
 import loading from "components/loading.vue"
+import choice from "components/choice.vue"
 Vue.component("treeSel", treeSel)
 Vue.component("icon", icon)
 Vue.component("sel", sel)
@@ -24,6 +26,7 @@ Vue.component("tab", tab)
 Vue.component("paging", paging)
 Vue.component("def", def)
 Vue.component("loading", loading)
+Vue.component("choice", choice)
 
 //抛向全局
 import * as util from '@/js/util.js'
