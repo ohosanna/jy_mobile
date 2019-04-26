@@ -5,7 +5,7 @@
     <tree-sel  v-else-if="dropdownType=='tree'"  :option="option" :value="valueC==''?[]:[valueC]" @treeChange="treeChange"/>
     <div v-else class="com-select-right box-f1 po-r" :class="[showDd?'open':'',positionClass,dropdownType=='moreSel'?'msel':'']" :id="id" >
       <div class="com-select-right- po-r" >
-        <input type="text" :placeholder="pla" :readonly="!isInp" :class="inputClass"  @click="isSel?dropdownSW():''" v-model="valueC" @input="inputChange">
+        <input :type="inputType"  :placeholder="pla" :readonly="!isInp" :class="inputClass"  @click="isSel?dropdownSW():''" v-model="valueC" @input="inputChange">
         <icon v-if="isSel" name="xiangxia3" class="fz12 co-9 po-ab in-tr"  @toup="dropdownSW"/>
       </div>
       <transition name="downin" >
@@ -35,6 +35,7 @@ export default {
     isInp:{type:Boolean,default:false},//输入框是否可输入
     value:String,//输入框值
     inputClass:String,//给输入框预留class入口
+    inputType:{type:String,default:'text'},
     positionClass:String,//给线框预留class入口
     dropdownType:{type:String,default:'sel'},//下拉类型
     option: Array//下拉配置项

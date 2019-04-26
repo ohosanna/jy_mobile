@@ -1,4 +1,4 @@
-/**用户接口服务*/
+/**公用接口服务*/
 import * as ax from '@/js/http.js'
 import * as def from '@/store/def.js';
 import store from '@/store/index.js'
@@ -43,6 +43,10 @@ export function getMenu() {
             })
     });
 }
+
+
+
+//以下是可能公用的头部查询条数据配置接口，也可以独立一个js文件变成公用接口
 
 export function getCompany() {
     return new Promise((resolve, reject) => {
@@ -93,17 +97,8 @@ export function getRole() {
     });
 }
 
-export function getUserList(data) {
-    return new Promise((resolve, reject) => {
-        ax.get('/sys/user/list',data)
-            .then((res) => {
-                resolve(res)
-            })
-            .catch((err) => {
-                console.log('获取用户列表失败:'+err);
-            })
-    });
-}
+
+
 
 
 

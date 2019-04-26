@@ -49,8 +49,6 @@
 </template>
 <script>
 import bg from 'img/login-bg.jpg'
-import * as userServer from "@/server/userServer.js";
-import * as def from '@/store/def.js';
 export default {
 name:'login',
 data () {

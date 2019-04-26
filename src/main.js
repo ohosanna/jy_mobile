@@ -18,6 +18,7 @@ import paging from "components/paging.vue"
 import def from "components/def.vue"
 import loading from "components/loading.vue"
 import choice from "components/choice.vue"
+import popup from "components/popup.vue"
 Vue.component("treeSel", treeSel)
 Vue.component("icon", icon)
 Vue.component("sel", sel)
@@ -27,13 +28,15 @@ Vue.component("paging", paging)
 Vue.component("def", def)
 Vue.component("loading", loading)
 Vue.component("choice", choice)
+Vue.component("popup", popup)
+
 
 //抛向全局
 import * as util from '@/js/util.js'
 import * as deff from '@/store/def.js'
-import * as us from "@/server/userServer.js";
+import * as pubServer from "@/server/publicServer.js";
 Vue.prototype.$fun = util;
-Vue.prototype.$US = us;
+Vue.prototype.$US = pubServer;
 Vue.prototype.$def = deff;
 Vue.prototype.$bus = new Vue()
 

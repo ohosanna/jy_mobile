@@ -12,16 +12,27 @@
 
     <div class="tl mt-10">
         <a class="btn btn-primary" @click="isList=false;"><i class="fa fa-plus"></i> 新增</a>
-		<a class="btn btn-default ml-5" ><i class="fa fa-trash-o"></i> 删除</a>
+		<a class="btn btn-default ml-5" @click="deleteUser"><i class="fa fa-trash-o"></i> 删除</a>
     </div>
 
     <loading :loading="isloading" >
-        <tab :tabTh="tabTh" :tabTd="tabTd" :tabThe="tabThe" :records="records"  :hasChoise="isTrue" :hasOrder="isTrue"
-        specialField="status" :page="page" :pagesize="pagesize" @pageChange="pageChange"  class="mt-10" v-if="records">
-        <span class="label " slot="sf" slot-scope="{tdss}" :class="tdss==1?'label-success':'label-danger'">{{tdss==1?'正常':'禁用'}}</span>
+        <tab v-if="records"
+        :tabTh="tabTh" :tabTd="tabTd" :tabThe="tabThe" :records="records"  
+        :hasChoise="isTrue" :hasOrder="isTrue" :selectOns="selectOn"
+        :page="page" :pagesize="pagesize" @pageChange="pageChange" 
+        @toEdit="toEdit"
+        @toResetPWD="toResetPWD"
+        @toDelete="toDelete"
+        @choiceChanges="choiceChanges"
+        specialField="status" 
+        class="mt-10">
+            <span class="label " slot="status" slot-scope="{tdss}" :class="tdss==1?'label-success':'label-danger'">{{tdss==1?'正常':'禁用'}}</span>
         </tab>
         <def  txt="查无数据" v-else />
     </loading>
+    <popup :show="deletePopupShow" @confirm="deletePopupShow=false; deleteUser()" @cancel="deletePopupShow=!deletePopupShow;selectOn=[]" popupClass="tc">
+        <div class="ptb-10" slot="popupMain">确定要删除选中项</div>
+    </popup>
 
 </div>
 <div class="user-add mt-10" v-else>
@@ -29,12 +40,12 @@
         <div class="panel-heading">新增用户</div>
         <div class="box  pa-15 pb-5">
             <div class="box-f1 pr-10">
-                <treeSel label="公司名称" :necessary="isTrue"  :optionData="companys"  :value="add.company" :multiple="!isTrue" @treeChange="(v)=>{this.add.company=v;getCommunity(v);}" class="mb-10" id="companyName"/>
-                <treeSel label="项目名称" :optionData="communitys"  :value="add.community" :multiple="!isTrue" @treeChange="(v)=>{add.community=v}" class="mb-10"  id="communityName"/>
+                <treeSel label="公司名称" :necessary="isTrue"  :optionData="companys"  :value="add.companyId" :multiple="!isTrue" @treeChange="(v)=>{this.add.companyId=v;getCommunity(v);getCommunityAll(v)}" class="mb-10" id="companyName"/>
+                <treeSel label="项目名称" :optionData="communitys"  :value="add.communityId" :multiple="!isTrue" @treeChange="(v)=>{add.communityId=v;getCommunityAll(add.companyId,v)}" class="mb-10"  id="communityName"/>
                 <sel label="用户账号" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" :value="add.username" class="mb-10" @inpChange="(v)=>{add.username=v}"/>
                 <sel label="用户姓名" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.petName" class="mb-10" @inpChange="(v)=>{add.petName=v}"/>
-                <sel label="用户密码" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.password" class="mb-10" @inpChange="(v)=>{add.password=v}"/>
-                <sel label="用户角色" :option="roleOption" :value="add.roleEx" id="typeSel" class="mb-10" @change="(v,id)=>{add.roleEx=v; add.roleId=id}"/>
+                <sel label="用户密码" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" inputType="password" :value="add.password" class="mb-10" @inpChange="(v)=>{add.password=v}"/>
+                <sel label="用户角色" :option="roleOption" :value="add.roleName" id="typeSel" class="mb-10" @change="(v,id)=>{add.roleEx=v; add.roleId=id}"/>
                 <sel label="用户邮箱" :isSel="!isTrue" :isInp="isTrue"  :value="add.email" class="mb-10" @inpChange="(v)=>{add.email=v}"/>
                 <sel label="用户手机" :isSel="!isTrue" :isInp="isTrue"  :value="add.mobile" class="mb-10" @inpChange="(v)=>{add.mobile=v}"/>
                 <div class='com-select box box-ac mtb-5' >
@@ -45,17 +56,19 @@
             </div>
             <div class="w50 pl-20">
                 <div class="fz-12 co-3 pa-5 mb-5">数据权限</div>
-                <treeSel :optionData="companysall"  :valuess="add.companyall" :multiple="isTrue" :alwaysOpen="isTrue" :isloadOption="!isTrue" @treeChange="(v)=>{add.companyall=v}" id="name"/>
+                <treeSel :optionData="companysall"  :valuess="add.communityIdList" :multiple="isTrue" :alwaysOpen="isTrue" :isloadOption="!isTrue" @treeChange="(v)=>{add.communityIdList=v}" id="name"/>
             </div>
         </div>
         <div class="tc pb-15">
-            <a class="btn btn-primary btn-lg plr-20" >确定</a>
+            <a class="btn btn-primary btn-lg plr-20"  @click="saveUser">确定</a>
 		    <a class="btn btn-default ml-10 btn-lg plr-20" @click="isList=true" >返回</a>
         </div>
     </div>
+    
 </div>
 </template>
 <script>
+import * as userManagerServer from "@/server/userManager.js"
 export default {
     name:'user',
     data () {
@@ -79,20 +92,18 @@ export default {
             
             //添加数据
             add:{
-                companyall:[],
-                company:null,
-                community:null,
+                communityIdList:[],
+                companyId:null,
+                communityId:null,
                 username:"",
                 petName:"",
                 password:"",
                 roleId:"",
-                roleEx:"",
+                roleName:"",
                 email:"",
                 mobile:"",
-                status:1,
-
+                status:1
             },
-
 
             //表格
             records:0,
@@ -102,7 +113,11 @@ export default {
 
             //分页
             page:1,
-            pagesize:10
+            pagesize:10,
+
+            selectOn:[],
+
+            deletePopupShow:false
         }
     },
     created(){
@@ -147,14 +162,25 @@ export default {
         //获取项目配置项
         getCommunity(companyId){
             if(companyId){
-                
                 this.$US.getCommunity({companyId:companyId}).then(res=>{
                     this.communitys=res;
                 })
             }
         },
+        //获取数据权限
+        getCommunityAll(companyId,communityId){
+            var k={}
+            if(companyId){
+                k={changeCompanyId:companyId};
+                if(communityId){
+                    k={changeCompanyId:companyId,changeCommunityId:communityId};
+                }
+            }
+            this.$US.getCommunityAll(k).then(res=>{
+                    this.companysall=res;
+            })
+        },
 
-        
         //成功获取表格数据后
         getUserListAfter(){
             this.isloading=true
@@ -177,17 +203,79 @@ export default {
                 username: this.username,
                 petName: this.petName
             }
-             this.$US.getUserList(toget).then(res=>{
+            userManagerServer.getUserList(toget).then(res=>{
                  if(res.code==0){
                      fun(res.page)
                  }
-                 
              })
         },
         pageChange(p,pz){
             this.page=p
             this.pagesize=pz
             this.getUserListAfter()
+        },
+        saveUser(){
+            var checkInfo=this.tocheck(this.add)
+            //console.log(checkInfo);
+            if(checkInfo == true){
+                userManagerServer.saveUser(this.add).then((res)=>{
+                    //console.log(res);
+                    if(res.code==0){
+                        alert("新增成功")
+                        this.isList=true;
+                        this.getUserListAfter();
+                    }
+                })
+            }else{
+                alert(checkInfo)
+            }
+        },
+        tocheck(res){
+            var pass=true
+            if(res.username==""){
+                pass=false;
+                return "请填写用户名"
+            }else if(res.companyId==null ){
+                pass=false;
+                return "请选择公司名"
+            }else if(res.petName==""){
+                pass=false;
+                return "请填写姓名"
+            }else if(!this.$fun.checkUserNameValid(res.password)){
+                pass=false;
+                return "密码不能为空和必须是6-19位数字带字母"
+            }else{
+                return pass
+            }
+        },
+
+        choiceChanges(on){
+            this.selectOn=on;
+        },
+
+        toEdit(tr){
+            console.log(tr);
+        },
+        toResetPWD(tr){
+            console.log(tr);
+        },
+        toDelete(tr){
+            this.selectOn=[tr.userId];
+            this.deletePopupShow=true;
+            //this.deleteUser()
+        },
+        deleteUser(){
+            if(this.selectOn.length>0){
+                userManagerServer.deleteUser(this.selectOn).then((res)=>{
+                    if(res.code==0){
+                        alert("删除成功")
+                        this.isList=true;
+                        this.getUserListAfter();
+                    }
+                })
+            }else{
+                alert("至少选择一个删除对象再操作")
+            }
         }
     }
 }

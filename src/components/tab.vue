@@ -12,19 +12,19 @@
             <tbody>
                 <tr v-for="(td,trkey) in tabTds" :key="trkey">
                     <td v-if="hasOrder">{{trkey+1}}</td>
-                    <td v-if="hasChoise"><choice :onSelect="selectOn.indexOf(trkey)!=-1" @choiceChange="choiceChange(trkey)"  type="checkbox"/></td>
+                    <td v-if="hasChoise"><choice :onSelect="selectOn.indexOf(tabTd[trkey].userId)!=-1" @choiceChange="choiceChange(tabTd[trkey].userId)"  type="checkbox"/></td>
                     <td v-for="(tds,tdskey) in td" :key="tdskey" >
                         <P class="ma-0" v-if="tds!='operation' && tabThe.indexOf(specialField)!=tdskey">
                             <span v-if="addADom.length<=0||tdskey<addADom[0]||tdskey>addADom[1]">{{tds}}</span>
                             <a v-else @click="emitKey(trkey,tdskey)">{{tds}}</a>
                         </P>
                         <p class="ma-0" v-else-if="tds=='operation'">
-                            <button class="btn btn-primary btn-xs" >修改</button>
-                            <button class="btn btn-primary btn-xs">重置密码</button>
-                            <button class="btn btn-danger btn-xs">删除</button>
+                            <button class="btn btn-primary btn-xs" @click="toEdit(tabTd[trkey])">修改</button>
+                            <button class="btn btn-primary btn-xs" @click="toResetPWD(tabTd[trkey])">重置密码</button>
+                            <button class="btn btn-danger btn-xs"  @click="toDelete(tabTd[trkey])">删除</button>
                         </p>
                         <p class="ma-0" v-else-if=" tabThe.indexOf(specialField)==tdskey">
-                            <slot name="sf" :tdss="tds"/>
+                            <slot :name="specialField" :tdss="tds"/>
                         </p>
                     </td>
                 </tr>
@@ -49,11 +49,12 @@ props:{
     tabThe:Array,
     tabTd:Array,
     addADom:{type:Array,default:()=>[]},
+    selectOns:{type:Array,default:()=>[]},
     specialField:{type:String,default:''}
 },  
 data () {
  return {
-    selectOn:[],
+    selectOn:this.selectOns,
     tabTds:[],
     hasOperation:this.tabThe.indexOf('operation')
 }
@@ -70,10 +71,11 @@ methods:{
         if(this.selectOn.length==this.tabTds.length){
             this.selectOn=[]
         }else{
-            for(var i=0;i<this.tabTds.length;i++){
-                this.selectOn.push(i)
+            for(var i=0;i<this.tabTd.length;i++){
+                this.selectOn.push(this.tabTd[i].userId)
             }
         }
+        this.$emit("choiceChanges",this.selectOn)
     },
     choiceChange(key){
         var hasin=this.selectOn.indexOf(key)
@@ -82,6 +84,7 @@ methods:{
         }else{
             this.selectOn.splice(hasin,1)
         }
+        this.$emit("choiceChanges",this.selectOn)
     },
     emitKey(tr,td){
         this.$emit('aClick',tr,td);
@@ -107,13 +110,25 @@ methods:{
     },
     pageChange(p,pz){
         this.$emit("pageChange",p,pz)
+    },
+    toEdit(tr){
+        this.$emit("toEdit",tr)
+    },
+    toResetPWD(tr){
+        this.$emit("toResetPWD",tr)
+    },
+    toDelete(tr){
+        this.$emit("toDelete",tr)
     }
 
 },
 watch:{
     tabTd(val){
         this.makeTd();
-    }
+    },
+    selectOns(val){
+        this.selectOn=val
+    } 
 }
 }
 </script>
