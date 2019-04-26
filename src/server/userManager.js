@@ -28,6 +28,19 @@ export function saveUser(data) {
     });
 }
 
+//更新用户
+export function updateUser(data) {
+    return new Promise((resolve, reject) => {
+        ax.postJson('/sys/user/update',data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('更新用户失败:'+err);
+            })
+    });
+}
+
 export function deleteUser(data) {
     return new Promise((resolve, reject) => {
         ax.postJson('/sys/user/delete',data)
@@ -36,6 +49,21 @@ export function deleteUser(data) {
             })
             .catch((err) => {
                 console.log('删除用户失败:'+err);
+            })
+    });
+}
+
+
+
+
+export function getUserIdInfo(id) {
+    return new Promise((resolve, reject) => {
+        ax.get('/sys/user/info/'+id)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('通过id获取用户信息失败:'+err);
             })
     });
 }

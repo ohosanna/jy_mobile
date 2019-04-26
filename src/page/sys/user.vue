@@ -11,7 +11,7 @@
     </div>
 
     <div class="tl mt-10">
-        <a class="btn btn-primary" @click="isList=false;"><i class="fa fa-plus"></i> 新增</a>
+        <a class="btn btn-primary" @click="toadd"><i class="fa fa-plus"></i> 新增</a>
 		<a class="btn btn-default ml-5" @click="deleteUser"><i class="fa fa-trash-o"></i> 删除</a>
     </div>
 
@@ -37,14 +37,14 @@
 </div>
 <div class="user-add mt-10" v-else>
     <div class="panel panel-default" style="">
-        <div class="panel-heading">新增用户</div>
+        <div class="panel-heading">{{tmpUserId?'修改':'新增'}}用户</div>
         <div class="box  pa-15 pb-5">
             <div class="box-f1 pr-10">
                 <treeSel label="公司名称" :necessary="isTrue"  :optionData="companys"  :value="add.companyId" :multiple="!isTrue" @treeChange="(v)=>{this.add.companyId=v;getCommunity(v);getCommunityAll(v)}" class="mb-10" id="companyName"/>
                 <treeSel label="项目名称" :optionData="communitys"  :value="add.communityId" :multiple="!isTrue" @treeChange="(v)=>{add.communityId=v;getCommunityAll(add.companyId,v)}" class="mb-10"  id="communityName"/>
                 <sel label="用户账号" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" :value="add.username" class="mb-10" @inpChange="(v)=>{add.username=v}"/>
                 <sel label="用户姓名" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.petName" class="mb-10" @inpChange="(v)=>{add.petName=v}"/>
-                <sel label="用户密码" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" inputType="password" :value="add.password" class="mb-10" @inpChange="(v)=>{add.password=v}"/>
+                <sel label="用户密码" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" inputType="password" :value="add.password" class="mb-10" @inpChange="(v)=>{add.password=v}" v-if="!tmpUserId"/>
                 <sel label="用户角色" :option="roleOption" :value="add.roleName" id="typeSel" class="mb-10" @change="(v,id)=>{add.roleEx=v; add.roleId=id}"/>
                 <sel label="用户邮箱" :isSel="!isTrue" :isInp="isTrue"  :value="add.email" class="mb-10" @inpChange="(v)=>{add.email=v}"/>
                 <sel label="用户手机" :isSel="!isTrue" :isInp="isTrue"  :value="add.mobile" class="mb-10" @inpChange="(v)=>{add.mobile=v}"/>
@@ -104,6 +104,7 @@ export default {
                 mobile:"",
                 status:1
             },
+            tmpUserId:null,
 
             //表格
             records:0,
@@ -216,16 +217,26 @@ export default {
         },
         saveUser(){
             var checkInfo=this.tocheck(this.add)
-            //console.log(checkInfo);
             if(checkInfo == true){
-                userManagerServer.saveUser(this.add).then((res)=>{
-                    //console.log(res);
-                    if(res.code==0){
-                        alert("新增成功")
-                        this.isList=true;
-                        this.getUserListAfter();
-                    }
-                })
+                if(!this.tmpUserId){
+                    userManagerServer.saveUser(this.add).then((res)=>{
+                        if(res.code==0){
+                            alert("新增成功")
+                            this.isList=true;
+                            this.getUserListAfter();
+                        }
+                    })
+                }else{
+                    this.add.roleName=null;
+                    this.add.communityIdList=[];
+                    userManagerServer.updateUser(this.add).then((res)=>{
+                        if(res.code==0){
+                            alert("修改成功")
+                            this.isList=true;
+                            this.getUserListAfter();
+                        }
+                    })
+                }
             }else{
                 alert(checkInfo)
             }
@@ -252,9 +263,35 @@ export default {
         choiceChanges(on){
             this.selectOn=on;
         },
+        toadd(){
+            this.isList=false;
+            this.tmpUserId=null;
+            this.add={
+                communityIdList:[],
+                companyId:null,
+                communityId:null,
+                username:"",
+                petName:"",
+                password:"",
+                roleId:"",
+                roleName:"",
+                email:"",
+                mobile:"",
+                status:1
+            }
+        },
 
         toEdit(tr){
-            console.log(tr);
+            userManagerServer.getUserIdInfo(tr.userId).then((res)=>{
+                if(res.code==0){
+                    this.isList=false;
+                    this.tmpUserId=res.user.userId
+                    this.add=res.user
+                    this.add.roleName=tr.roleName
+                    this.getCommunity(res.user.companyId);
+                    this.getCommunityAll(res.user.companyId,res.user.communityId)
+                }
+            })
         },
         toResetPWD(tr){
             console.log(tr);
