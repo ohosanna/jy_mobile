@@ -1,10 +1,10 @@
 <template>
 <div class='popup'>
     <transition name="upIn">
-        <div  v-if="show" class="intab-poup in-c ba-f pa-10 brr-5 " :class="popupClass">
+        <div  v-if="show" class="intab-poup in-c ba-f  brr-5 " :class="popupClass">
             <slot name="popupMain"/>
             <slot name="popupBtn" v-if="popupBtnSlot"/>
-            <div class="tc mt-10" v-else>
+            <div class="tc mt-10" v-else :class="popupBtnClass">
                 <btn txt="确定" type="main" class="inline-block plr-20 mr-5" @inup="popupSure" />
                 <btn txt="取消" class="inline-block plr-20" @inup="popupClose" />
             </div>
@@ -21,6 +21,7 @@ name:'popup',
 props:{
     show:Boolean,
     popupClass:String,
+    popupBtnClass:String,
     popupBtnSlot:{type:Boolean,default:false}
 },
 methods:{

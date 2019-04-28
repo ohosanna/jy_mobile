@@ -30,19 +30,31 @@
         </tab>
         <def  txt="查无数据" v-else />
     </loading>
-    <popup :show="deletePopupShow" @confirm="deletePopupShow=false; deleteUser()" @cancel="deletePopupShow=!deletePopupShow;selectOn=[]" popupClass="tc">
+    <popup :show="ResetPWDPopupShow" @confirm="ResetPWDPopupShow=false;resetPWD()" @cancel="ResetPWDPopupShow=!ResetPWDPopupShow" popupBtnClass="pb-10">
+        <div slot="popupMain">
+            <div class="fz10 co-1 br hb-b brc-d1  pa-10">重置密码</div>
+            <div class="pa-10">
+                <div class='com-select box box-ac mtb-10' >
+                    <label class="fz10 co-5 block">用户名/姓名：</label>
+                    <span  class="label label-success block">{{reUser}}</span>
+                </div>
+                <sel  label="新密码" inputType="password" :isSel="!isTrue" :isInp="isTrue" :value="newPassword" @inpChange="(v)=>{newPassword=v}"/>
+            </div>
+        </div>
+    </popup>
+    <popup :show="deletePopupShow" @confirm="deletePopupShow=false; deleteUser()" @cancel="deletePopupShow=!deletePopupShow;selectOn=[]" popupClass="tc pa-10">
         <div class="ptb-10" slot="popupMain">确定要删除选中项</div>
     </popup>
 
 </div>
 <div class="user-add mt-10" v-else>
-    <div class="panel panel-default" style="">
+    <div class="panel panel-default">
         <div class="panel-heading">{{tmpUserId?'修改':'新增'}}用户</div>
         <div class="box  pa-15 pb-5">
             <div class="box-f1 pr-10">
                 <treeSel label="公司名称" :necessary="isTrue"  :optionData="companys"  :value="add.companyId" :multiple="!isTrue" @treeChange="(v)=>{this.add.companyId=v;getCommunity(v);getCommunityAll(v)}" class="mb-10" id="companyName"/>
                 <treeSel label="项目名称" :optionData="communitys"  :value="add.communityId" :multiple="!isTrue" @treeChange="(v)=>{add.communityId=v;getCommunityAll(add.companyId,v)}" class="mb-10"  id="communityName"/>
-                <sel label="用户账号" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" :value="add.username" class="mb-10" @inpChange="(v)=>{add.username=v}"/>
+                <sel label="用户账号" :necessary="isTrue" :isSel="!isTrue" :isInp="!isTrue" :value="add.username" class="mb-10" @inpChange="(v)=>{add.username=v}"/>
                 <sel label="用户姓名" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.petName" class="mb-10" @inpChange="(v)=>{add.petName=v}"/>
                 <sel label="用户密码" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" inputType="password" :value="add.password" class="mb-10" @inpChange="(v)=>{add.password=v}" v-if="!tmpUserId"/>
                 <sel label="用户角色" :option="roleOption" :value="add.roleName" id="typeSel" class="mb-10" @change="(v,id)=>{add.roleEx=v; add.roleId=id}"/>
@@ -118,7 +130,11 @@ export default {
 
             selectOn:[],
 
-            deletePopupShow:false
+            deletePopupShow:false,
+            ResetPWDPopupShow:false,
+            newPassword:"",
+            reUser:"",
+            reUserId:""
         }
     },
     created(){
@@ -227,7 +243,6 @@ export default {
                         }
                     })
                 }else{
-                    this.add.roleName=null;
                     this.add.communityIdList=[];
                     userManagerServer.updateUser(this.add).then((res)=>{
                         if(res.code==0){
@@ -295,6 +310,18 @@ export default {
         },
         toResetPWD(tr){
             console.log(tr);
+            this.ResetPWDPopupShow=true;
+            this.reUser=tr.username+"/"+tr.petName;
+            this.reUserId=tr.userId;
+            this.newPassword=""
+        },
+        resetPWD(){
+            userManagerServer.resetpsdUser({id:this.reUserId,newPassword:this.newPassword}).then((res)=>{
+                if(res.code==0){
+                   alert("重置密码成功")
+                    this.getUserListAfter(); 
+                }
+            })
         },
         toDelete(tr){
             this.selectOn=[tr.userId];

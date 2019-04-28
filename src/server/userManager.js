@@ -53,6 +53,17 @@ export function deleteUser(data) {
     });
 }
 
+export function resetpsdUser(data) {
+    return new Promise((resolve, reject) => {
+        ax.post('/sys/user/resetpsd',data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('重置密码失败:'+err);
+            })
+    });
+}
 
 
 
