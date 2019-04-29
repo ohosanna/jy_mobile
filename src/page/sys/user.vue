@@ -97,7 +97,6 @@ export default {
             companysall:[],
             // 查询数据
             company:null,
-            
             community:null,
             username:"",
             petName:"",
@@ -122,8 +121,6 @@ export default {
 
             //表格
             records:0,
-
-
             tableConfig:[
                 {th:"序号",bindTh:"tableOrder",widthTd:"",slotName:"",hasClick:false},
                 {th:"",bindTh:"tableChoise",widthTd:"",slotName:"",hasClick:false},
@@ -171,6 +168,7 @@ export default {
             this.company=null
             this.community=null
             this.roleId=null
+            this.roleEx=""
             this.username=null
             this.petName=null
             this.communitys=[]
@@ -223,12 +221,6 @@ export default {
             this.isloading=true
             this.getUserList(this.page,this.pagesize,(res)=>{
                 this.tableSourceData=res.list
-                // this.tableSourceData=this.tableSourceData.map(item=>{
-                //     return {
-                //         ...item,
-                //         newst:item.companyName+"/"+item.communityName
-                //     }
-                // })
                 this.records=res.totalCount
                 this.isloading=false
             })

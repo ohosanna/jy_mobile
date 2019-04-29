@@ -7,7 +7,6 @@
       <router-tab />
       <router-view  />
     </div>
-    
   </div>
   <router-view  v-else/>
 </template>
@@ -28,6 +27,8 @@ export default {
   },
   watch: {
     $route(to, from) {
+      console.log(to.name);
+      
       /* 路由发生变化修改页面title */
       if (to.meta.title) {
         document.title = to.meta.title;

@@ -10,7 +10,9 @@
       </div>
       <transition name="downin" >
       <div class="com-select-dropdown an"  v-if="dropdownType=='sel' && showDd">
-        <a v-for="(opt,optkey) in option" :key="optkey" @click="tovalue(optkey)">{{opt.ex}}</a>
+        <div v-for="(opt,optkey) in option" :key="optkey">
+          <a  @click="tovalue(optkey)" >{{opt.ex}}</a>
+        </div>
       </div>
       </transition>
       <transition name="downin" >
@@ -45,12 +47,14 @@ export default {
       pla:"",
       valueC:'',
       showDd:false,
+      optionDraw:[]
     };
   },
   //实例组件
   components: {moreSel,dateSel,treeSel},
   //创建vue时的钩子
   created() {
+    
     this.valueC=this.value;
     this.pla=this.isSel?'请选择'+this.label:'请填写'+this.label
   },

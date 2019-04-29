@@ -7,8 +7,9 @@
     :options="options" 
     :alwaysOpen="alwaysOpen"
     :placeholder="placeholder"  
-    :load-options="isloadOption?loadOptions:()=>{}"  
-    :openOnClick="!isTrue"
+    :load-options="isloadOption?loadOptions:()=>{}"
+    :noOptionsText="noOptionsText"  
+
     @select="onTreeSel" 
     @input="inp" 
     @deselect="des" 
@@ -31,7 +32,8 @@ props:{
     optionData:Array,
     valuess:Array,
     value:Number,
-    id:String
+    id:String,
+    noOptionsText:{type:String,default:"没有可选择的配置项"}
 },
 data () {
  return {
