@@ -4,28 +4,23 @@
         <table>
             <thead>
                 <tr>
-                    <td v-if="hasOrder"></td>
-                    <td v-if="hasChoise"><choice :onSelect="selectOn.length==tabTds.length" @choiceChange="PchoiceChange"  type="checkbox"/></td>
-                    <th v-for="(th,thkey) in tabTh" :key="thkey">{{th}}</th>
+                    <th v-for="(th,thkey) in tableConfig" :key="thkey" :width="th.widthTd">
+                        <choice :onSelect="selectOn.length==tableSourceData.length" @choiceChange="PchoiceChange"  type="checkbox" v-if="th.bindTh=='tableChoise'"/>
+                        <span v-else>{{th.th}}</span>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(td,trkey) in tabTds" :key="trkey">
-                    <td v-if="hasOrder">{{trkey+1}}</td>
-                    <td v-if="hasChoise"><choice :onSelect="selectOn.indexOf(tabTd[trkey].userId)!=-1" @choiceChange="choiceChange(tabTd[trkey].userId)"  type="checkbox"/></td>
-                    <td v-for="(tds,tdskey) in td" :key="tdskey" >
-                        <P class="ma-0" v-if="tds!='operation' && tabThe.indexOf(specialField)!=tdskey">
-                            <span v-if="addADom.length<=0||tdskey<addADom[0]||tdskey>addADom[1]">{{tds}}</span>
-                            <a v-else @click="emitKey(trkey,tdskey)">{{tds}}</a>
+                <tr v-for="(td,trkey) in drawTableData" :key="trkey">
+                    <td v-for="(tds,tdskey) in td" :key="tdskey"  >
+                        <p v-if="tableThBind[tdskey]=='tableOrder'">{{trkey+1}}</p>
+                        <choice v-else-if="tableThBind[tdskey]=='tableChoise'" :onSelect="selectOn.indexOf(tableSourceData[trkey].userId)!=-1" @choiceChange="choiceChange(tableSourceData[trkey].userId)"  type="checkbox"/>
+                        <slot :name="'tableOperation'" v-else-if="tableThBind[tdskey]=='tableOperation'" :datas="tableSourceData[trkey]"></slot>
+                        <slot :name="tableSlot[tdskey]" :tdss="tds" v-else-if=" tableThBind[tdskey]==tableSlot[tdskey]"/>
+                        <P class="ma-0" v-else>
+                            <span v-if="!tableConfig[tdskey].hasClick">{{tds}}</span>
+                            <a v-else @click="emitKey(trkey,tableThBind[tdskey])">{{tds}}</a>
                         </P>
-                        <p class="ma-0" v-else-if="tds=='operation'">
-                            <button class="btn btn-primary btn-xs" @click="toEdit(tabTd[trkey])">修改</button>
-                            <button class="btn btn-primary btn-xs" @click="toResetPWD(tabTd[trkey])">重置密码</button>
-                            <button class="btn btn-danger btn-xs"  @click="toDelete(tabTd[trkey])">删除</button>
-                        </p>
-                        <p class="ma-0" v-else-if=" tabThe.indexOf(specialField)==tdskey">
-                            <slot :name="specialField" :tdss="tds"/>
-                        </p>
                     </td>
                 </tr>
                 
@@ -40,23 +35,27 @@
 export default {
 name:'tab',
 props:{
+    tableConfig:Array,
     hasOrder:{type:Boolean,default:false},
     hasChoise:{type:Boolean,default:false},
+    tdWidth:{type:Array,default:()=>[]},
+    specialField:{type:String,default:''},
+    addADom:{type:Array,default:()=>[]},
+    
+    tableSourceData:Array,
+
     records:Number,
     page:Number,
     pagesize:Number,
-    tabTh:Array,
-    tabThe:Array,
-    tabTd:Array,
-    addADom:{type:Array,default:()=>[]},
+    
     selectOns:{type:Array,default:()=>[]},
-    specialField:{type:String,default:''}
 },  
 data () {
  return {
     selectOn:this.selectOns,
-    tabTds:[],
-    hasOperation:this.tabThe.indexOf('operation')
+    drawTableData:[],
+    tableThBind:[],
+    tableSlot:[]
 }
 },
 
@@ -67,16 +66,47 @@ data () {
 
 //当前vue使用的函数
 methods:{
+    makeTd(){
+        this.tableThBind=this.tableConfig.map(item=>{
+            return item.bindTh
+        })
+        this.tableSlot=this.tableConfig.map(item=>{
+            return item.slotName
+        })
+        var outd=[]
+        this.tableSourceData.map(st=>{
+            var intd=this.tableThBind.map(item=>{
+                return ""
+            });
+            for(var key in st){
+               var  indx=this.tableThBind.indexOf(key)
+               if(indx!=-1){
+                   intd[indx]=st[key]
+               }
+            }
+            outd.push(intd)
+        })
+
+        this.drawTableData=outd;
+    },
+
+    //以下是事件抛出
+    pageChange(p,pz){
+        this.$emit("pageChange",p,pz)
+    },
+    //头部复选改变事件
     PchoiceChange(){
-        if(this.selectOn.length==this.tabTds.length){
+        if(this.selectOn.length==this.drawTableData.length){
             this.selectOn=[]
         }else{
-            for(var i=0;i<this.tabTd.length;i++){
-                this.selectOn.push(this.tabTd[i].userId)
+            this.selectOn=[]
+            for(var i=0;i<this.drawTableData.length;i++){
+                this.selectOn.push(this.tableSourceData[i].userId)
             }
         }
         this.$emit("choiceChanges",this.selectOn)
     },
+    //td里复选改变事件
     choiceChange(key){
         var hasin=this.selectOn.indexOf(key)
         if(hasin==-1){
@@ -87,43 +117,12 @@ methods:{
         this.$emit("choiceChanges",this.selectOn)
     },
     emitKey(tr,td){
-        this.$emit('aClick',tr,td);
+        this.$emit('tableTdClick',tr,td);
     },
-    makeTd(){
-        var outd=[];
-        this.hasOperation=this.tabThe.indexOf('operation')
-        this.tabTd.map(item=>{
-            var ind=[]
-            for(var key in item){
-                var inof=this.tabThe.indexOf(key)
-                if(inof!=-1){
-                    ind[inof]=item[key]
-                }
-            }
-            if(this.hasOperation!=-1){
-                ind.push("operation")
-            }
-            outd.push(ind)
-            
-        })
-        this.tabTds=outd;
-    },
-    pageChange(p,pz){
-        this.$emit("pageChange",p,pz)
-    },
-    toEdit(tr){
-        this.$emit("toEdit",tr)
-    },
-    toResetPWD(tr){
-        this.$emit("toResetPWD",tr)
-    },
-    toDelete(tr){
-        this.$emit("toDelete",tr)
-    }
 
 },
 watch:{
-    tabTd(val){
+    tableSourceData(val){
         this.makeTd();
     },
     selectOns(val){

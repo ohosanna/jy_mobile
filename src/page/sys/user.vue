@@ -1,13 +1,16 @@
 <template>
 <div class='user-list mt-10' v-if="isList">
-    <div class="check-box box box-ac  pa-10 ba-mbg brr-5">
+    <div class="check-box pa-10 ba-mbg brr-5">
+        <div  class="box box-ac">
         <div class="box-f1 mr-10" ><treeSel label="公司名" :optionData="companys" :value="company" :multiple="!isTrue" @treeChange="(v)=>{this.company=v;getCommunity(v);}" id="companyName"/></div>
         <div class="box-f1 mr-10"><treeSel label="项目名" :optionData="communitys"  :value="community" :multiple="!isTrue" @treeChange="(v)=>{community=v}" id="communityName"/></div>
         <div class="box-f1 mr-10"><sel label="账号" :isSel="!isTrue" :isInp="isTrue" :value="username" @inpChange="(v)=>{username=v}"/></div>
+        
         <div class="box-f1 mr-10"><sel label="姓名" :isSel="!isTrue" :isInp="isTrue"  :value="petName"  @inpChange="(v)=>{petName=v}"/></div>
         <div class="box-f1 mr-10"><sel label="角色" :option="roleOption" :value="roleEx" id="typeSel"  @change="(v,id)=>{roleEx=v;roleId=id}" /></div>
         <div class="btn btn-primary mr-10 " @click="getUserListAfter"><i class="fa fa-search"></i> 查询</div>
         <div class="btn btn-default" @click="recheck"><i class="fa fa-repeat"></i> 重置</div>
+        </div>
     </div>
 
     <div class="tl mt-10">
@@ -16,20 +19,19 @@
     </div>
 
     <loading :loading="isloading" >
-        <tab v-if="records"
-        :tabTh="tabTh" :tabTd="tabTd" :tabThe="tabThe" :records="records"  
-        :hasChoise="isTrue" :hasOrder="isTrue" :selectOns="selectOn"
-        :page="page" :pagesize="pagesize" @pageChange="pageChange" 
-        @toEdit="toEdit"
-        @toResetPWD="toResetPWD"
-        @toDelete="toDelete"
-        @choiceChanges="choiceChanges"
-        specialField="status" 
-        class="mt-10">
+        <tab v-if="records"  :tableSourceData="tableSourceData"  :tableConfig="tableConfig" :records="records"  :selectOns="selectOn" :page="page"  :pagesize="pagesize" 
+            @pageChange="pageChange"  @tableTdClick="tableTdClick" @choiceChanges="choiceChanges" class="mt-10">
+            <span class="label label-success" slot="petName" slot-scope="{tdss}">{{tdss}}</span>
             <span class="label " slot="status" slot-scope="{tdss}" :class="tdss==1?'label-success':'label-danger'">{{tdss==1?'正常':'禁用'}}</span>
+            <p class="ma-0" slot="tableOperation" slot-scope="{datas}">
+                <button class="btn btn-primary btn-xs" @click="toEdit(datas)">修改</button>
+                <button class="btn btn-primary btn-xs" @click="toResetPWD(datas)">重置密码</button>
+                <button class="btn btn-danger btn-xs"  @click="toDelete(datas)">删除</button>
+            </p>
         </tab>
         <def  txt="查无数据" v-else />
     </loading>
+    
     <popup :show="ResetPWDPopupShow" @confirm="ResetPWDPopupShow=false;resetPWD()" @cancel="ResetPWDPopupShow=!ResetPWDPopupShow" popupBtnClass="pb-10">
         <div slot="popupMain">
             <div class="fz10 co-1 br hb-b brc-d1  pa-10">重置密码</div>
@@ -120,9 +122,23 @@ export default {
 
             //表格
             records:0,
-            tabTh:['用户ID','公司名称','项目名称','角色名称','用户账号','用户姓名','邮箱','手机号','状态','创建时间','操作'],//表格头
-            tabThe:['userId','companyName','communityName','roleName','username','petName','email','mobile','status','createTime','operation'],//表格头对应的字段名
-            tabTd:[],//表格数据
+
+
+            tableConfig:[
+                {th:"序号",bindTh:"tableOrder",widthTd:"",slotName:"",hasClick:false},
+                {th:"",bindTh:"tableChoise",widthTd:"",slotName:"",hasClick:false},
+                {th:"公司名称",bindTh:"companyName",widthTd:"",slotName:"",hasClick:false},
+                {th:"项目名称",bindTh:"communityName",widthTd:"",slotName:"",hasClick:false},
+                {th:"角色名称",bindTh:"roleName",widthTd:"",slotName:"",hasClick:false},
+                {th:"用户账号",bindTh:"username",widthTd:"",slotName:"",hasClick:false},
+                {th:"用户姓名",bindTh:"petName",widthTd:"",slotName:"petName",hasClick:false},
+                {th:"邮箱",bindTh:"email",widthTd:"",slotName:"",hasClick:false},
+                {th:"手机号",bindTh:"mobile",widthTd:"",slotName:"",hasClick:false},
+                {th:"状态",bindTh:"status",widthTd:"",slotName:"status",hasClick:false},
+                {th:"创建时间",bindTh:"createTime",widthTd:"",slotName:"",hasClick:false},
+                {th:"操作",bindTh:"tableOperation",widthTd:"",slotName:"",hasClick:false}
+            ],
+            tableSourceData:[],//表格源数据
 
             //分页
             page:1,
@@ -147,7 +163,10 @@ export default {
         }
     },
     methods:{
-
+        tableTdClick(tr,td){
+            console.log(tr,td);
+            
+        },
         recheck(){
             this.company=null
             this.community=null
@@ -155,6 +174,7 @@ export default {
             this.username=null
             this.petName=null
             this.communitys=[]
+            //this.getUserListAfter()
         },
 
         //一进页面就得获取的配置项
@@ -202,7 +222,13 @@ export default {
         getUserListAfter(){
             this.isloading=true
             this.getUserList(this.page,this.pagesize,(res)=>{
-                this.tabTd=res.list
+                this.tableSourceData=res.list
+                // this.tableSourceData=this.tableSourceData.map(item=>{
+                //     return {
+                //         ...item,
+                //         newst:item.companyName+"/"+item.communityName
+                //     }
+                // })
                 this.records=res.totalCount
                 this.isloading=false
             })
@@ -276,6 +302,7 @@ export default {
         },
 
         choiceChanges(on){
+            //console.log(on);
             this.selectOn=on;
         },
         toadd(){

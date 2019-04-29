@@ -110,7 +110,10 @@ export const clearUrl=(url)=>{
 
 export const isIframe=(url)=>{
   if(url.indexOf('.html')!=-1){
-      return '/home';
+      return {
+        path:'/home',
+        query:{url:url}
+      };
   }else{
     return{name:url} ;
   }

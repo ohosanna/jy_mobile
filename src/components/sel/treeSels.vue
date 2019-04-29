@@ -93,9 +93,22 @@ methods:{
     },
     coption(data,pid){
         var kk=[]
-        data.map(item=>{
-            if(item.parentId==pid){
-                kk.push( { id:item.id,label:item[this.id],children:null})
+        data.map(item => {
+            if (item.parentId == pid) {
+                let flage = false;
+                data.every((value, index) => {
+                    if (value.parentId == item.id) {
+                        flage = true;
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+                if (flage) {
+                    kk.push({id: item.id, label: item[this.id], children: null})
+                }else{
+                    kk.push({id: item.id, label: item[this.id]})
+                }
             }
         })
         return kk

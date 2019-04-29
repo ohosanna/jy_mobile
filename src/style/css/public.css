@@ -87,6 +87,10 @@
 .co-7{color: #777 !important;}
 .co-9{color: #999 !important;}
 .co-a{color: #aaa !important;}
+.co-f1{color: #f1f1f1 !important;}
+.co-f3{color: #f3f3f3 !important;}
+.co-f6{color: #f6f6f6 !important;}
+.co-f9{color: #f9f9f9 !important;}
 
 .ba-m{background-color: #1e92ed !important}
 .ba-s{background-color: #ecad08 !important}
@@ -141,6 +145,7 @@
 .brr-20,.brr-20::after{ border-radius:2rem }
 .brr-10,.brr-10::after{ border-radius:1rem }
 .brr-5,.brr-5::after{ border-radius:0.5rem }
+.brr-2,.brr-2::after{ border-radius:0.2rem }
 
 .br {position: relative}
 .br::after{

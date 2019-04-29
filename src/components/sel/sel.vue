@@ -5,7 +5,7 @@
     <tree-sel  v-else-if="dropdownType=='tree'"  :option="option" :value="valueC==''?[]:[valueC]" @treeChange="treeChange"/>
     <div v-else class="com-select-right box-f1 po-r" :class="[showDd?'open':'',positionClass,dropdownType=='moreSel'?'msel':'']" :id="id" >
       <div class="com-select-right- po-r" >
-        <input :type="inputType"  :placeholder="pla" :readonly="!isInp" :class="inputClass"  @click="isSel?dropdownSW():''" v-model="valueC" @input="inputChange">
+        <input :type="inputType"  :placeholder="pla" :readonly="!isInp" :class="inputClass"  @click="isSel?dropdownSW():''" v-model="valueC" @input="inputChange" @change="focusChange">
         <icon v-if="isSel" name="xiangxia3" class="fz12 co-9 po-ab in-tr"  @toup="dropdownSW"/>
       </div>
       <transition name="downin" >
@@ -78,8 +78,10 @@ export default {
       this.$emit("change",this.valueC,valueId)
     },
     inputChange(){
-
       this.$emit("inpChange",this.valueC)
+    },
+    focusChange(){
+      this.$emit("focusChange",this.valueC)
     },
     moreChanges(v,id){
       this.valueC=v;

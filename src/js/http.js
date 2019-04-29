@@ -43,6 +43,9 @@ axios.interceptors.response.use(
     return Promise.reject(error.response)
 })
 
+export {
+    axios
+}
 
 
 export function get(url, params){    

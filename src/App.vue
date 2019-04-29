@@ -24,9 +24,6 @@ export default {
     }
   },
   components: { menus,h,routerTab },
-  mounted(){
-    
-  },
   methods:{
   },
   watch: {
@@ -37,12 +34,20 @@ export default {
       }
       // 把新挑战的路由明赋值给pathname，以方便判断跳转
       this.pathName=to.name;
-      console.log(localStorage.islogin);
+
+      //检查登录状态
+      //console.log("是否为登录状态："+localStorage.islogin);
       if(localStorage.islogin!="true"){
         this.$router.push("/login")
       }
-      
-      
+      //检查是否登录超时
+      this.$US.userInfo().then(res=>{
+          if(res.code!=0){
+            console.log("登录超时，会自动把登录状态改成false，并跳转到登录页");
+            this.$store.commit(this.$def.LOGIN, false)
+            this.$router.push("/login")
+          }
+      })
     }
   }
 };

@@ -20,8 +20,14 @@ components: {},
 computed:{
     users(){
         return this.$US.userInfo().then(res=>{
-          this.$store.commit(this.$def.USER, res.user)
-          return this.$store.state.user
+          if(res.code==0){
+            this.$store.commit(this.$def.USER, res.user)
+            return this.$store.state.user
+          }else{
+            console.log("超时刷新，用户接口无法获取了,会自动把登录状态改成false，并跳转到登录页");
+            this.$store.commit(this.$def.LOGIN, false)
+            this.$router.push("/login")
+          }
         })
     }
 },
@@ -31,7 +37,6 @@ computed:{
 mounted(){
   this.users.then(res=>{
         this.user=res
-        
     });
 },
 //当前vue使用的函数
@@ -39,7 +44,6 @@ methods:{
   logout(){
     this.$store.commit(this.$def.LOGIN, false);
     this.$router.push("/login")
-
   }
 },
 }

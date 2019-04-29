@@ -40,7 +40,9 @@ created(){
         if(res.code==0){
             this.menuList=res.menuList
         }else{
-            console.log(res.msg);
+            console.log("菜单接口登录超时无法获取,会自动把登录状态改成false，并跳转到登录页"+res.msg);
+            this.$store.commit(this.$def.LOGIN, false)
+            this.$router.push('/login')
         }
     })
     this.$bus.$on('tohome', (p) => {
@@ -58,21 +60,14 @@ methods:{
     menusclick(p,i,j){
         p.i=i;p.j=j; //把选中的双层id附带在菜单条p上
         this.$bus.$emit("onmenu",p)//往外面抛带此菜单条的事件
-
         if(p.menuId==2){p.url=this.$fun.clearUrl(p.url)}//因为要演示demo，特殊把menuid=2的就是用户管理这个菜单条做成vue路由路径
         this.$router.push(this.$fun.isIframe(p.url))//判单url是否带.html，带的话就用iframe去显示，不带就跳相应vue的路由url
-        
         this.ulActive=i;
         this.liActive=j;
     },
     menuUlClick(i){
-        this.ulActive=i;
+        this.ulActive=this.ulActive==i?-1:i;
         this.liActive=-1;
-        // if(this.chopen.indexOf(i)==-1){
-        //     this.chopen.push(i)
-        // }else{
-        //     this.chopen.splice(this.chopen.indexOf(i),1)
-        // }
     }
 }
 

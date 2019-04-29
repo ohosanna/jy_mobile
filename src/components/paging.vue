@@ -2,7 +2,10 @@
     <div class="paging box box-ac box-jc mt-10">
         <btn txt="首页"  class="inline-block plr-10 mr-10"  @inup="startToOne"/>
         <btn txt="上一页"  class="inline-block plr-10 mr-10" @inup="prev"/>
-        <sel :value="String(pageStart)" class="inline-block mr-10" inputClass="w4 pl-5" positionClass="up" :option="pageOptions"  @change="pagenumChange" id="p"/>
+        <sel :isInp="isTrue" :value="String(pageStart)" class="inline-block mr-10" inputClass="w4 pl-5" positionClass="up" :option="pageOptions"  
+        @change="pagenumChange"
+        @focusChange="pagenumInpChange"
+         id="p"/>
         <btn txt="下一页"  class="inline-block plr-10 mr-10" @inup="next"/>
         <btn txt="末页"  class="inline-block plr-10 mr-10" @inup="startToEnd"/>
         <div>第 <span class="co-m">{{pageStart}}</span>  / {{ Math.ceil(dataCount / pagesize)}} 页,每页</div>
@@ -20,6 +23,7 @@ export default {
     },
     data () {
         return {
+            isTrue:true,
            pageStart:this.startPage,
            pageOptions:[],
            pagesizes:this.pagesize,
@@ -76,6 +80,10 @@ export default {
         },
         pagenumChange(value,id){
             this.pageStart=id;
+            this.pageChange()
+        },
+        pagenumInpChange(value){
+            this.pageStart=value;
             this.pageChange()
         },
         pageChange(){
