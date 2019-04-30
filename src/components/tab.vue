@@ -5,7 +5,7 @@
             <thead>
                 <tr>
                     <th v-for="(th,thkey) in tableConfig" :key="thkey" :width="th.widthTd">
-                        <choice :onSelect="selectOn.length==tableSourceData.length" @choiceChange="PchoiceChange"  type="checkbox" v-if="th.bindTh=='tableChoise'"/>
+                        <choice :onSelect="selectOn.length==selectLength" @choiceChange="PchoiceChange"  type="checkbox" v-if="th.bindTh=='tableChoise'"/>
                         <span v-else>{{th.th}}</span>
                     </th>
                 </tr>
@@ -14,8 +14,13 @@
                 <tr v-for="(td,trkey) in drawTableData" :key="trkey">
                     <td v-for="(tds,tdskey) in td" :key="tdskey"  >
                         <p v-if="tableThBind[tdskey]=='tableOrder'">{{trkey+1}}</p>
-                        <choice v-else-if="tableThBind[tdskey]=='tableChoise'" :onSelect="selectOn.indexOf(tableSourceData[trkey].userId)!=-1" @choiceChange="choiceChange(tableSourceData[trkey].userId)"  type="checkbox"/>
-                        <slot :name="'tableOperation'" v-else-if="tableThBind[tdskey]=='tableOperation'" :datas="tableSourceData[trkey]"></slot>
+                        <choice v-else-if="tableThBind[tdskey]=='tableChoise'" 
+                        :onSelect="selectOn.indexOf(trkey)!=-1" 
+                        @choiceChange="choiceChange(trkey)"
+                        :isDisabled="choiseDisableds.indexOf(trkey)!=-1"  
+                        type="checkbox"
+                        />
+                        <slot :name="'tableOperation'" v-else-if="tableThBind[tdskey]=='tableOperation'" :datas="tableSourceData[trkey]" :dataIndex="trkey"></slot>
                         <slot :name="tableSlot[tdskey]" :tdss="tds" v-else-if=" tableThBind[tdskey]==tableSlot[tdskey]"/>
                         <P class="ma-0" v-else>
                             <span v-if="!tableConfig[tdskey].hasClick">{{tds}}</span>
@@ -36,37 +41,51 @@ export default {
 name:'tab',
 props:{
     tableConfig:Array,
-    hasOrder:{type:Boolean,default:false},
-    hasChoise:{type:Boolean,default:false},
-    tdWidth:{type:Array,default:()=>[]},
-    specialField:{type:String,default:''},
-    addADom:{type:Array,default:()=>[]},
-    
+    choiseDisabledConfig:Object,
     tableSourceData:Array,
-
     records:Number,
     page:Number,
     pagesize:Number,
-    
-    selectOns:{type:Array,default:()=>[]},
+    selectOns:{type:Array,default:()=>[]}
 },  
 data () {
  return {
     selectOn:this.selectOns,
     drawTableData:[],
     tableThBind:[],
-    tableSlot:[]
+    tableSlot:[],
+    choiseDisableds:[],
+    selectLength:0
 }
 },
 
 //创建vue时的钩子
  created(){
-    this.makeTd();
+    
+    //console.log(this.choiseDisableds);
+    this.makeChoiseDisableds();
+    this.makeDrawTableData();
+    this.selectLength=this.drawTableData.length-this.choiseDisableds.length
+    
  },
 
 //当前vue使用的函数
 methods:{
-    makeTd(){
+    // 制作复选不可选下标数组
+    makeChoiseDisableds(){
+        var i=0;
+        this.choiseDisableds=[];
+        this.tableSourceData.map(item=>{
+            var k=this.choiseDisabledConfig.value.indexOf(item[this.choiseDisabledConfig.field])
+            //console.log(this.choiseDisabledConfig.value,this.choiseDisabledConfig.field,item[this.choiseDisabledConfig.field],k);
+            if(k!=-1){
+                this.choiseDisableds.push(i)
+            }
+            i++;
+        })
+    },
+    // 制作渲染用的表格数据
+    makeDrawTableData(){
         this.tableThBind=this.tableConfig.map(item=>{
             return item.bindTh
         })
@@ -86,7 +105,6 @@ methods:{
             }
             outd.push(intd)
         })
-
         this.drawTableData=outd;
     },
 
@@ -96,13 +114,16 @@ methods:{
     },
     //头部复选改变事件
     PchoiceChange(){
-        if(this.selectOn.length==this.drawTableData.length){
+        if(this.selectOn.length==this.selectLength){
             this.selectOn=[]
         }else{
             this.selectOn=[]
             for(var i=0;i<this.drawTableData.length;i++){
-                this.selectOn.push(this.tableSourceData[i].userId)
+                if(this.choiseDisableds.indexOf(i)==-1){
+                    this.selectOn.push(i)
+                }
             }
+            console.log(this.selectOn);
         }
         this.$emit("choiceChanges",this.selectOn)
     },

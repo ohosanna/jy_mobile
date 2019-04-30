@@ -1,5 +1,5 @@
 
-
+/* zwt多年经验汇总用得舒服的甜品css */
 .pa-0{padding: 0 !important;}
 .pa-5{padding: 0.5rem !important;}
 .pa-10{padding: 1rem !important;}
@@ -174,6 +174,8 @@
 .brc-f1::after{border-color:#f1f1f1;}
 .brc-e1::after{border-color:#e1e1e1;}
 .brc-d1::after{border-color:#d1d1d1;}
+.brc-a1::after{border-color:#a1a1a1;}
+.brc-91::after{border-color:#919191;}
 .brc-m::after{border-color:#1e92ed;}
 
 .fl{ float:left !important;}

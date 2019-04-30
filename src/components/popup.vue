@@ -36,7 +36,7 @@ methods:{
 </script>
 <style>
 .intab-poup{
-    position: absolute; width:auto; z-index: 999;
+    position: fixed; width:auto; z-index: 999;
 }
 .intab-poup-mask{ width: 100%; height: 100%; position: fixed; background: rgba(0,0,0,0.4); top: 0; left: 0; z-index: 998;}
 </style> 

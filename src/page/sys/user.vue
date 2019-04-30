@@ -15,18 +15,18 @@
 
     <div class="tl mt-10">
         <a class="btn btn-primary" @click="toadd"><i class="fa fa-plus"></i> 新增</a>
-		<a class="btn btn-default ml-5" @click="deleteUser"><i class="fa fa-trash-o"></i> 删除</a>
+		<a class="btn btn-default ml-5" @click="deleteUser('userId')"><i class="fa fa-trash-o"></i> 删除</a>
     </div>
 
     <loading :loading="isloading" >
-        <tab v-if="records"  :tableSourceData="tableSourceData"  :tableConfig="tableConfig" :records="records"  :selectOns="selectOn" :page="page"  :pagesize="pagesize" 
+        <tab v-if="records"  :tableSourceData="tableSourceData" :choiseDisabledConfig="choiseDisabledConfig"  :tableConfig="tableConfig" :records="records"  :selectOns="selectOn" :page="page"  :pagesize="pagesize" 
             @pageChange="pageChange"  @tableTdClick="tableTdClick" @choiceChanges="choiceChanges" class="mt-10">
-            <span class="label label-success" slot="petName" slot-scope="{tdss}">{{tdss}}</span>
+            <!-- <span class="label label-success" slot="petName" slot-scope="{tdss}">{{tdss}}</span> -->
             <span class="label " slot="status" slot-scope="{tdss}" :class="tdss==1?'label-success':'label-danger'">{{tdss==1?'正常':'禁用'}}</span>
-            <p class="ma-0" slot="tableOperation" slot-scope="{datas}">
-                <button class="btn btn-primary btn-xs" @click="toEdit(datas)">修改</button>
-                <button class="btn btn-primary btn-xs" @click="toResetPWD(datas)">重置密码</button>
-                <button class="btn btn-danger btn-xs"  @click="toDelete(datas)">删除</button>
+            <p class="ma-0" slot="tableOperation" slot-scope="{datas,dataIndex}">
+                <button class="btn btn-primary btn-xs mtb-5 mr-5" @click="toEdit(datas)">修改</button>
+                <button class="btn btn-primary btn-xs mtb-5 mr-5" @click="toResetPWD(datas)">重置密码</button>
+                <button class="btn btn-danger btn-xs mtb-5 mr-5"  @click="toDelete(datas,dataIndex)">删除</button>
             </p>
         </tab>
         <def  txt="查无数据" v-else />
@@ -44,7 +44,7 @@
             </div>
         </div>
     </popup>
-    <popup :show="deletePopupShow" @confirm="deletePopupShow=false; deleteUser()" @cancel="deletePopupShow=!deletePopupShow;selectOn=[]" popupClass="tc pa-10">
+    <popup :show="deletePopupShow" @confirm="deletePopupShow=false; deleteUser('userId')" @cancel="deletePopupShow=!deletePopupShow;selectOn=[]" popupClass="tc pa-10">
         <div class="ptb-10" slot="popupMain">确定要删除选中项</div>
     </popup>
 
@@ -56,7 +56,7 @@
             <div class="box-f1 pr-10">
                 <treeSel label="公司名称" :necessary="isTrue"  :optionData="companys"  :value="add.companyId" :multiple="!isTrue" @treeChange="(v)=>{this.add.companyId=v;getCommunity(v);getCommunityAll(v)}" class="mb-10" id="companyName"/>
                 <treeSel label="项目名称" :optionData="communitys"  :value="add.communityId" :multiple="!isTrue" @treeChange="(v)=>{add.communityId=v;getCommunityAll(add.companyId,v)}" class="mb-10"  id="communityName"/>
-                <sel label="用户账号" :necessary="isTrue" :isSel="!isTrue" :isInp="!isTrue" :value="add.username" class="mb-10" @inpChange="(v)=>{add.username=v}"/>
+                <sel label="用户账号" :necessary="isTrue" :isSel="!isTrue" :isInp="!tmpUserId" :isDisabled="tmpUserId!=null" :value="add.username" class="mb-10" @inpChange="(v)=>{add.username=v}"/>
                 <sel label="用户姓名" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue"  :value="add.petName" class="mb-10" @inpChange="(v)=>{add.petName=v}"/>
                 <sel label="用户密码" :necessary="isTrue" :isSel="!isTrue" :isInp="isTrue" inputType="password" :value="add.password" class="mb-10" @inpChange="(v)=>{add.password=v}" v-if="!tmpUserId"/>
                 <sel label="用户角色" :option="roleOption" :value="add.roleName" id="typeSel" class="mb-10" @change="(v,id)=>{add.roleEx=v; add.roleId=id}"/>
@@ -128,13 +128,14 @@ export default {
                 {th:"项目名称",bindTh:"communityName",widthTd:"",slotName:"",hasClick:false},
                 {th:"角色名称",bindTh:"roleName",widthTd:"",slotName:"",hasClick:false},
                 {th:"用户账号",bindTh:"username",widthTd:"",slotName:"",hasClick:false},
-                {th:"用户姓名",bindTh:"petName",widthTd:"",slotName:"petName",hasClick:false},
+                {th:"用户姓名",bindTh:"petName",widthTd:"",slotName:"",hasClick:false},
                 {th:"邮箱",bindTh:"email",widthTd:"",slotName:"",hasClick:false},
                 {th:"手机号",bindTh:"mobile",widthTd:"",slotName:"",hasClick:false},
                 {th:"状态",bindTh:"status",widthTd:"",slotName:"status",hasClick:false},
                 {th:"创建时间",bindTh:"createTime",widthTd:"",slotName:"",hasClick:false},
                 {th:"操作",bindTh:"tableOperation",widthTd:"",slotName:"",hasClick:false}
             ],
+            choiseDisabledConfig:{field:"userId",value:[24,23]},//复选框配置对应数据的那个字段等于指定值的时候不可选
             tableSourceData:[],//表格源数据
 
             //分页
@@ -342,18 +343,23 @@ export default {
                 }
             })
         },
-        toDelete(tr){
-            this.selectOn=[tr.userId];
+        toDelete(tr,dataIndex){
+            this.selectOn=[dataIndex];
             this.deletePopupShow=true;
-            //this.deleteUser()
         },
-        deleteUser(){
+        deleteUser(field){
             if(this.selectOn.length>0){
-                userManagerServer.deleteUser(this.selectOn).then((res)=>{
+                var toDeleteIds=[];
+                for(var i=0;i<this.selectOn.length;i++){
+                    toDeleteIds[i]=this.tableSourceData[Number(this.selectOn[i])][field]
+                }
+                //console.log(toDeleteIds);
+                userManagerServer.deleteUser(toDeleteIds).then((res)=>{
                     if(res.code==0){
                         alert("删除成功")
                         this.isList=true;
                         this.getUserListAfter();
+                        this.selectOn=[];
                     }
                 })
             }else{

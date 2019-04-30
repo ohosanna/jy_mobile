@@ -5,7 +5,7 @@
     <tree-sel  v-else-if="dropdownType=='tree'"  :option="option" :value="valueC==''?[]:[valueC]" @treeChange="treeChange"/>
     <div v-else class="com-select-right box-f1 po-r" :class="[showDd?'open':'',positionClass,dropdownType=='moreSel'?'msel':'']" :id="id" >
       <div class="com-select-right- po-r" >
-        <input :type="inputType"  :placeholder="pla" :readonly="!isInp" :class="inputClass"  @click="isSel?dropdownSW():''" v-model="valueC" @input="inputChange" @change="focusChange">
+        <input :type="inputType"  :placeholder="pla" :readonly="!isInp" :disabled="isDisabled" :class="inputClass"  @click="isSel?dropdownSW():''" v-model="valueC" @input="inputChange" @change="focusChange">
         <icon v-if="isSel" name="xiangxia3" class="fz12 co-9 po-ab in-tr"  @toup="dropdownSW"/>
       </div>
       <transition name="downin" >
@@ -35,6 +35,7 @@ export default {
     id:String,
     isSel:{type:Boolean,default:true},//是否为下拉框
     isInp:{type:Boolean,default:false},//输入框是否可输入
+    isDisabled:{type:Boolean,default:false},
     value:String,//输入框值
     inputClass:String,//给输入框预留class入口
     inputType:{type:String,default:'text'},
@@ -131,6 +132,7 @@ export default {
   height: calc(2.5rem - 2px);
   line-height:  calc(2.5rem - 2px);
 }
+.com-select-right input:disabled{background: #f1f1f1; cursor: not-allowed;}
 .com-select-right i {
   cursor: pointer;
   width: 2rem; text-align: center;
