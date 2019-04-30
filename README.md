@@ -46,7 +46,16 @@ come on ,lets go to try it!
     @tableTdClick="(trkey,tdfelid)=>{console.log(trkey,tdfelid)}" //当td点击时回抛事件,带两个参数，trkey为第几行的下标，tdfelid为第几列对应的字段，此事件需要设置对应列的hasClick才有回抛
     @choiceChanges="(selecton)=>{console.log(selecton)}" //当表格中的复选框改变时回抛事件，带一个参数 ，selecton为选中行的下标
 父类装载器slot：
-	slot=tableOperation：操作栏装载器，转载器上回调两个参数datas当前行的所有数据json，dataIndex当前行的下标， 
-    其他配置项 通过配置项的slotName配置对应的bindTh，这两个配置成一样，就会启动特殊转载器，会返回一个参数 tdss 当前行当前列的值
+	slot=tableOperation//操作栏装载器，转载器上回调两个参数datas当前行的所有数据json，dataIndex当前行的下标，
+    使用例子：
+    <p class="ma-0" slot="tableOperation" slot-scope="{datas,dataIndex}">
+        <button class="btn btn-primary btn-xs mtb-5 mr-5" @click="toEdit(datas)">修改</button>
+        <button class="btn btn-primary btn-xs mtb-5 mr-5" @click="toResetPWD(datas)">重置密码</button>
+        <button class="btn btn-danger btn-xs mtb-5 mr-5"  @click="toDelete(datas,dataIndex)">删除</button>
+    </p>
+    其他配置项 //通过配置项的slotName配置对应的bindTh，这两个配置成一样，就会启动特殊转载器，会返回一个参数 tdss 当前行当前列的值
+    使用例子：
+    //配置项tableConfig上要先配好：{th:"状态",bindTh:"status",widthTd:"",slotName:"status",hasClick:false}
+    <span class="label " slot="status" slot-scope="{tdss}" :class="tdss==1?'label-success':'label-danger'">{{tdss==1?'正常':'禁用'}}</span>
 
 ```
