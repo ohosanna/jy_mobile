@@ -1,5 +1,5 @@
 <template>
-    <i :class='"xzbicon "+beforName+name' v-if="drawType=='class'" @click="tip"></i>
+    <i :class='"jyicon "+beforName+name' v-if="drawType=='class'" @click="tip"></i>
     <svg class="icon"  aria-hidden="true" v-else v-html="use" @click="tip">{{use}}</svg>
 </template>
 <script>
@@ -12,7 +12,7 @@ export default {
     },
     data () {
         return {
-            beforName:"micon-",
+            beforName:"jyicon-",
             use:"<use xlink:href='#"+this.name+"'></use>"
         }
     },methods:{

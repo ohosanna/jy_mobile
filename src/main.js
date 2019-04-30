@@ -40,6 +40,9 @@ Vue.prototype.$US = pubServer;
 Vue.prototype.$def = deff;
 Vue.prototype.$bus = new Vue()
 
+import vmessage from 'components/message/message.js'
+Vue.use(vmessage)
+
 
 new Vue({
   el: '#app',

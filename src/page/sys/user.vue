@@ -48,6 +48,7 @@
         <div class="ptb-10" slot="popupMain">确定要删除选中项</div>
     </popup>
 
+
 </div>
 <div class="user-add mt-10" v-else>
     <div class="panel panel-default">
@@ -152,6 +153,7 @@ export default {
         }
     },
     created(){
+        
         this.getCheckOption()
         this.getUserListAfter()
     },
@@ -240,9 +242,11 @@ export default {
                 petName: this.petName
             }
             userManagerServer.getUserList(toget).then(res=>{
-                 if(res.code==0){
-                     fun(res.page)
-                 }
+                if(res.code==0){
+                    fun(res.page)
+                }else{
+                    this.$message.error(res.msg);
+                }
              })
         },
         pageChange(p,pz){
@@ -256,23 +260,27 @@ export default {
                 if(!this.tmpUserId){
                     userManagerServer.saveUser(this.add).then((res)=>{
                         if(res.code==0){
-                            alert("新增成功")
+                            this.$message.success('新增成功');
                             this.isList=true;
                             this.getUserListAfter();
+                        }else{
+                            this.$message.error(res.msg);
                         }
                     })
                 }else{
                     this.add.communityIdList=[];
                     userManagerServer.updateUser(this.add).then((res)=>{
                         if(res.code==0){
-                            alert("修改成功")
+                            this.$message.success('修改成功');
                             this.isList=true;
                             this.getUserListAfter();
+                        }else{
+                            this.$message.error(res.msg);
                         }
                     })
                 }
             }else{
-                alert(checkInfo)
+                this.$message.error(checkInfo);
             }
         },
         tocheck(res){
@@ -338,8 +346,10 @@ export default {
         resetPWD(){
             userManagerServer.resetpsdUser({id:this.reUserId,newPassword:this.newPassword}).then((res)=>{
                 if(res.code==0){
-                   alert("重置密码成功")
+                   this.$message.success('重置密码成功');
                     this.getUserListAfter(); 
+                }else{
+                    this.$message.error(res.msg);
                 }
             })
         },
@@ -356,14 +366,16 @@ export default {
                 //console.log(toDeleteIds);
                 userManagerServer.deleteUser(toDeleteIds).then((res)=>{
                     if(res.code==0){
-                        alert("删除成功")
+                        this.$message.success({text:'删除成功',duration:1000});
                         this.isList=true;
                         this.getUserListAfter();
                         this.selectOn=[];
+                    }else{
+                        this.$message.error(res.msg);
                     }
                 })
             }else{
-                alert("至少选择一个删除对象再操作")
+                this.$message.warning('至少选择一个删除对象再操作');
             }
         }
     }
