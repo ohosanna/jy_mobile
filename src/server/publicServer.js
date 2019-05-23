@@ -83,8 +83,6 @@ export function getCommunityAll(data) {
     });
 }
 
-
-
 export function getRole() {
     return new Promise((resolve, reject) => {
         ax.get('/sys/role/select')
@@ -97,7 +95,17 @@ export function getRole() {
     });
 }
 
-
+export function getHousehandoverInfo(data) {
+    return new Promise((resolve, reject) => {
+        ax.get('http://wyapp.rkph.com.cn/api/househandover/info', data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('获取资源失败:'+err);
+            })
+    });
+}
 
 
 

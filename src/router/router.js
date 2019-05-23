@@ -7,6 +7,9 @@ Vue.use(Router);
 const login = r =>require.ensure([], () => r(require('page/login')), 'login');
 const home = r =>require.ensure([], () => r(require('page/home')), 'home');
 const user = r =>require.ensure([], () => r(require('page/sys/user')), 'user');
+const delivery = r =>require.ensure([], () => r(require('page/delivery/index')), 'delivery');
+const deliveryPage1 = r =>require.ensure([], () => r(require('page/delivery/pages/base1')), 'deliveryPage1');
+const deliveryPage2 = r =>require.ensure([], () => r(require('page/delivery/pages/base2')), 'deliveryPage2');
 export default new Router({
   routes: [
     {
@@ -37,6 +40,26 @@ export default new Router({
         requireAuth:true
       },
       component: user
+    },
+    {
+      path: '/delivery/h5/:id',
+      name: 'delivery',
+      meta: {
+        title: "房产交付",
+      },
+      component: delivery,
+      children: [
+        { 
+          path: '', 
+          name: 'deliveryPage1',
+          component: deliveryPage1 
+        },
+        {
+          path: 'page2',
+          name: 'deliveryPage2',
+          component: deliveryPage2 
+        }
+      ]
     }
     
   ]
