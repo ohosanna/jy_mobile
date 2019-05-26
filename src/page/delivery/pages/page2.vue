@@ -6,11 +6,8 @@
 					<img src="../../../assets/images/delivery/text2.png">
 				</div>
 				<div class="houselist">
-					<div class="list">
-						<a class="btn btn-yellow">21栋 甲-701</a>
-					</div>
-					<div class="list">
-						<a class="btn btn-yellow">21栋 甲-801</a>
+					<div v-for="room in rooms" :key="room.houseId" class="list">
+						<a class="btn btn-yellow">{{room.houseName}}</a>
 					</div>
 				</div>
 			</template>
@@ -20,18 +17,18 @@
 				</div>
 				<div class="formset">
 					<div class="list">
-						<span>姓&nbsp&nbsp　　　名：</span>
-						<input class="input-userSet" />
+						<span>姓&nbsp;&nbsp;　　　名：</span>
+						<input class="input-userSet" type="text" v-model="custName" />
 					</div>
 					<div class="list">
 						<span>身份证后6位：</span>
-						<input class="input-userSet" />
+						<input class="input-userSet" type="text" v-model="cardNumber" />
 					</div>
 					<p class="note">
 						注：填写内容以购房合同签署信息为准，如购房合同签署人不止一个，选择其一即可。
 					</p>
 					<div class="btnshow">
-						<a class="btn btn-yellow">查询</a>
+						<a class="btn btn-yellow" @click="getHouseList">查询</a>
 					</div>
 				</div>
 			</template>
@@ -49,7 +46,9 @@
             return{
                 welcomeBg: null,
 				hasResult: false,
-				rooms: []
+				rooms: [],
+				custName: '',
+				cardNumber: ''
             }
         },
         methods:{
@@ -63,7 +62,22 @@
                         this.welcomeBg = res.data.welcome_bg;
                     }
                 })
-            }
+            },
+			getHouseList() {
+				let data = {
+					communityId: this.$route.params.id,
+					custName: this.custName,
+					cardNumber: this.cardNumber
+				}
+                this.$US.getHouseList(data).then(res => {
+                    if (res.code == 0) {
+						this.rooms = res.data.houseData
+						this.hasResult = true
+                    } else {
+						this.$message.error(res.msg)
+					}
+                })
+			}
         },
         created() {
             this.getInfo()

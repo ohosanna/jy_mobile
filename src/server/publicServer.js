@@ -107,6 +107,40 @@ export function getHousehandoverInfo(data) {
     });
 }
 
+export function getHouseList(data) {
+    return new Promise((resolve, reject) => {
+        ax.get('http://wyapp.rkph.com.cn/api/househandover/house-list', data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('获取房产信息失败:'+err);
+            })
+    });
+}
 
+export function getHousePrice(data) {
+    return new Promise((resolve, reject) => {
+        ax.get('http://wyapp.rkph.com.cn/api/househandover/house-price', data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('获取房价补退差价信息失败:'+err);
+            })
+    });
+}
+
+export function getPropertyCost(data) {
+    return new Promise((resolve, reject) => {
+        ax.get('http://wyapp.rkph.com.cn/api/househandover/property-cost', data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('获取物业费用详情信息失败:'+err);
+            })
+    });
+}
 
 
