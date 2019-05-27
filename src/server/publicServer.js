@@ -155,3 +155,50 @@ export function getCustomerInfo(data) {
     });
 }
 
+export function getFamilyInfo(data) {
+    return new Promise((resolve, reject) => {
+        ax.get('http://wyapp.rkph.com.cn/api/househandover/get-family-info', data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('获取家人信息失败:'+err);
+            })
+    });
+}
+
+export function getUploadFamilyInfo(data) {
+    return new Promise((resolve, reject) => {
+        ax.get('http://wyapp.rkph.com.cn/api/househandover/upload-family-info', data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('获取家人信息失败:'+err);
+            })
+    });
+}
+
+export function ownerRegister(data) {
+    return new Promise((resolve, reject) => {
+        ax.post('http://wyapp.rkph.com.cn/api/househandover/owner-register',data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('提交业主信息失败:'+err);
+            })
+    });
+}
+
+export function ownerFamilyRegister(data) {
+    return new Promise((resolve, reject) => {
+        ax.post('http://wyapp.rkph.com.cn/api/househandover/owner-family-register',data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('提交业主信息失败:'+err);
+            })
+    });
+}

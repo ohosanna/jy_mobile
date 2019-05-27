@@ -7,11 +7,11 @@
 			</h2>
 			<p class="notep">亲爱的业主，为节约您交付现场办理时间，请于交付之日前填写以下信息并上传，谢谢！(注:带*为必填项)</p>
 			<div class="list">
-				<p class="set-col-6"><span>小区：</span><input ></p>
-				<p class="set-col-6"><span>房号：</span><input ></p>
-				<p class="set-col-6"><span>业主姓名：</span><input ></p>
-				<p class="set-col-6"><span>联系方式：</span><input ></p>
-				<p class="set-col-12"><span>身份证号：</span><input ></p>
+				<p class="set-col-6"><span>小区：</span><input v-model="baseInfo.communityName" readonly /></p>
+				<p class="set-col-6"><span>房号：</span><input v-model="baseInfo.houseName" readonly /></p>
+				<p class="set-col-6"><span>业主姓名：</span><input v-model="baseInfo.custName" readonly /></p>
+				<p class="set-col-6"><span>联系方式：</span><input v-model="baseInfo.telephone" readonly /></p>
+				<p class="set-col-12"><span>身份证号：</span><input v-model="baseInfo.cardNumber" readonly /></p>
 				<div class="clear"></div>
 			</div>
 		</div>
@@ -62,6 +62,7 @@
             return{
                 deliverId: this.$route.params.id,
 				communityId: '',
+				houseInfo: {},
 				custInfo: {},
 				baseInfo: {},
 				ownerInfo: {}
@@ -80,6 +81,7 @@
                 }
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
+						this.communityId = res.data.communityId
                         this.welcomeBg = res.data.welcome_bg
                     }
                 })
@@ -97,28 +99,56 @@
 			},
 			getBaseOwnerInfo() {
 				let custInfo = JSON.parse(this.$fun.getLocalStorage('custInfo'))
+				this.custInfo = custInfo ? custInfo : {}
 				let data = {
-					custId: custInfo.id
+					custId: custInfo.id,
+					houseId: this.houseInfo.houseId
 				}
-                this.$US.getCustomerInfo(data).then(res => {
-                    if (res.code == 0) {
+                this.$US.getUploadFamilyInfo(data).then(res => {
+                    if (res.code == 0 && res.data) {
+						this.baseInfo = res.data
                     } else {
 						this.$message.error(res.msg)
 					}
                 })
 			},
+			getOwnerInfo() {
+				let data = {
+					custId: this.custInfo.id,
+				}
+                this.$US.getCustomerInfo(data).then(res => {
+                    if (res.code == 0 && res.data) {
+						this.ownerInfo = res.data
+                    } else {
+						this.$message.error(res.msg)
+					}
+                })
+
+			},
 			handleSubmit() {
 				let data = this.ownerInfo
 				data.communityId = this.communityId
-				data.houseId = this.houseId
-				data.custId = this.custId
-				console.log(data)
+				data.houseId = this.houseInfo.houseId
+				data.custId = this.custInfo.id
+                this.$US.ownerRegister(data).then(res => {
+                    if (res.code == 0) {
+						this.$message.success("业主信息登记成功")
+						setTimeout( () => {
+							this.$router.push({name: 'deliveryPage11', params: {id: this.deliverId}})
+						}, 2000)
+                    } else {
+						this.$message.error(res.msg)
+					}
+                })
 			}
 		},
         created() {
 			this.getInfo()
-			this.getBaseOwnerInfo()
 			this.getHouseInfo()
+			this.$nextTick(() => {
+				this.getBaseOwnerInfo()
+				this.getOwnerInfo()
+			})
         }
 	}
      
