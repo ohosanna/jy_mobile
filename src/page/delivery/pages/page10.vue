@@ -17,30 +17,39 @@
 		</div>
 		<div class="form-bd">
 			<div class="list">
-				<p class="set-col-6"><span>*我是：</span><input ></p>
-				<p class="set-col-6"><span>性别：</span><select ><option>男</option><option>女</option></select></p>
-				<p class="set-col-12"><span>出生年月：</span><input type="date" ></p>
-				<p class="set-col-12"><span>文化程度：</span><select ><option>大学</option><option>高中</option><option>初中及以下</option></select></p>
-				<p class="set-col-6"><span>籍贯：</span><input ></p>
-				<p class="set-col-6"><span>政治面貌：</span><input ></p>
-				<p class="set-col-12"><span>*兴趣爱好：</span><input ></p>
-				<p class="set-col-12"><span>*微信号/QQ号：</span><input ></p>
-				<p class="set-col-12"><span>*紧急联系人：</span><input ></p>
-				<p class="set-col-12"><span>*紧急联系人联系方式：</span><input ></p>
-				<p class="set-col-6"><span>*工作单位：</span><input ></p>
-				<p class="set-col-6"><span>*职业：</span><input ></p>
-				<p class="set-col-6"><span>职称：</span><input ></p>
-				<p class="set-col-6"><span>职务：</span><input ></p>
-				<p class="set-col-6"><span>*办公电话：</span><input ></p>
-				<p class="set-col-6"><span>*单位地址：</span><input ></p>
-				<p class="set-col-6"><span>*是否有车辆：</span><select ><option>有</option><option>无</option></select></p>
-				<p class="set-col-6"><span>*是否有子女：</span><select ><option>有</option><option>无</option></select></p>
-				<p class="set-col-6"><span>*房屋性质：</span><select ><option>自用</option><option>出租</option></select></p>
+				<p class="set-col-6"><span>*我是：</span><input type="text" v-model="ownerInfo.custName" /></p>
+				<p class="set-col-6"><span>性别：</span><select v-model="ownerInfo.sex"><option value="0">男</option><option value="1">女</option></select></p>
+				<p class="set-col-12"><span>出生年月：</span><input type="date" v-model="ownerInfo.birthday"></p>
+				<p class="set-col-12">
+					<span>文化程度：</span>
+					<select v-model="ownerInfo.education">
+						<option value="4">硕士及以上</option>
+						<option value="3">本科</option>
+						<option value="2">大专</option>
+						<option value="1">高中</option>
+						<option value="0">初中及以下</option>
+					</select>
+				</p>
+				<p class="set-col-6"><span>籍贯：</span><input type="text" v-model="ownerInfo.place" /></p>
+				<p class="set-col-6"><span>政治面貌：</span><input type="text" v-model="ownerInfo.politics" /></p>
+				<p class="set-col-12"><span>*兴趣爱好：</span><input type="text" v-model="ownerInfo.hobbies" /></p>
+				<p class="set-col-12"><span>*微信号/QQ号：</span><input type="text" v-model="ownerInfo.wechatOrQQ" /></p>
+				<p class="set-col-12"><span>*紧急联系人：</span><input type="text" v-model="ownerInfo.contactName" /></p>
+				<p class="set-col-12"><span>*紧急联系人联系方式：</span><input type="text" v-model="ownerInfo.contactTel" /></p>
+				<p class="set-col-6"><span>*工作单位：</span><input type="text" v-model="ownerInfo.workUnit" /></p>
+				<p class="set-col-6"><span>*职业：</span><input type="text" v-model="ownerInfo.vocation" /></p>
+				<p class="set-col-6"><span>职称：</span><input type="text" v-model="ownerInfo.technicalTitle" /></p>
+				<p class="set-col-6"><span>职务：</span><input type="text" v-model="ownerInfo.job" /></p>
+				<p class="set-col-6"><span>*办公电话：</span><input type="text" v-model="ownerInfo.workTel" /></p>
+				<p class="set-col-6"><span>*单位地址：</span><input type="text" v-model="ownerInfo.unitAddress" /></p>
+				<p class="set-col-6"><span>*是否有车辆：</span><select v-model="ownerInfo.isHaveCar" ><option value="1">有</option><option value="1">无</option></select></p>
+				<p class="set-col-6"><span>*是否有子女：</span><select v-model="ownerInfo.isHaveChildren"><option value="1">有</option><option value="1">无</option></select></p>
+				<p class="set-col-6"><span>*房屋性质：</span><select v-model="ownerInfo.houseProperty"><option value="0">自用</option><option value="1">商用</option></select></p>
 				<div class="clear"></div>
 			</div>
 		</div>
 		<div class="form-sumbit">
-			<a class="btn">确认上传</a>
+			<a class="btn" @click="handleSubmit">确认上传</a>
 		</div>
 	</div>
 </template>
@@ -51,8 +60,11 @@
         name: "deliveryPage10",
         data() {
             return{
-                welcomeBg: null,
-				content: null,
+                deliverId: this.$route.params.id,
+				communityId: '',
+				custInfo: {},
+				baseInfo: {},
+				ownerInfo: {}
             }
         },
 		methods: {
@@ -69,12 +81,44 @@
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
                         this.welcomeBg = res.data.welcome_bg
-						this.content = this.decodeHTML(res.data.propertyData)
                     }
                 })
             },
+			getHouseInfo() {
+				let houseInfo = this.$fun.getLocalStorage('selectedHouse')
+				if (!houseInfo) {
+					this.$message.error('请先选择你的房源。')
+					setTimeout( () => {
+						this.$router.push({name: 'deliveryPage2', params: {id: this.deliverId}})
+					}, 2000)
+				} else {
+					this.houseInfo = JSON.parse(houseInfo)
+				}
+			},
+			getBaseOwnerInfo() {
+				let custInfo = JSON.parse(this.$fun.getLocalStorage('custInfo'))
+				let data = {
+					custId: custInfo.id
+				}
+                this.$US.getCustomerInfo(data).then(res => {
+                    if (res.code == 0) {
+                    } else {
+						this.$message.error(res.msg)
+					}
+                })
+			},
+			handleSubmit() {
+				let data = this.ownerInfo
+				data.communityId = this.communityId
+				data.houseId = this.houseId
+				data.custId = this.custId
+				console.log(data)
+			}
 		},
         created() {
+			this.getInfo()
+			this.getBaseOwnerInfo()
+			this.getHouseInfo()
         }
 	}
      

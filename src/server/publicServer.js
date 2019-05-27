@@ -143,4 +143,15 @@ export function getPropertyCost(data) {
     });
 }
 
+export function getCustomerInfo(data) {
+    return new Promise((resolve, reject) => {
+        ax.get('http://wyapp.rkph.com.cn/api/househandover/get-customer-info', data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('获取客户个人信息失败:'+err);
+            })
+    });
+}
 
