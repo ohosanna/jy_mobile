@@ -40,12 +40,12 @@
             getInfo() {
                 let data = {
                     deliverId: this.$route.params.id,
-                    number: '6'
+                    number: '16'
                 }
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
                         this.welcomeBg = res.data.welcome_bg
-						this.content = this.decodeHTML(res.data.propertyData)
+						this.content = this.decodeHTML(res.data.taxReportGuide)
                     }
                 })
             },
