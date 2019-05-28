@@ -58,6 +58,11 @@
 					custName: this.custName,
 					cardNumber: this.cardNumber
 				}
+				if (data.custName === '') {
+					return this.$message.error('请输入姓名')
+				} else if (data.cardNumber.length !== 6) {
+					return this.$message.error('请输入身份证后六位')
+				}
                 this.$US.getHouseList(data).then(res => {
                     if (res.code == 0) {
 						let custInfo = {

@@ -10,7 +10,7 @@
             <img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
 		</div>
 		<div class="goNext">
-			<a>
+			<a @click="goToPage('page6')">
 				<img src="../../../assets/images/delivery/goNext.png"  />
 			</a>
 		</div>
@@ -23,6 +23,7 @@
         name: "deliveryPage5",
         data(){
             return{
+                deliverId: this.$route.params.id,
                 welcomeBg: null,
 				mapImg: null,
             }
@@ -32,6 +33,9 @@
 				var txt = document.createElement('textarea');
 				txt.innerHTML = str;
 				return txt.value;
+			},
+			goToPage(path) {
+				this.$router.push({path: path})
 			},
             getInfo() {
                 let data = {

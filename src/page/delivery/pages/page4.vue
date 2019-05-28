@@ -13,14 +13,20 @@
 		<div class="footPic">
             <img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
 		</div>
+		<div class="goNext">
+			<a @click="goToPage('deliveryPage5')">
+				<img src="../../../assets/images/delivery/goNext.png"  />
+			</a>
+		</div>
 	</div>
 </template>
  
 <script>
     export default {
-        name: "deliveryPage3",
+        name: "deliveryPage4",
         data(){
             return{
+                deliverId: this.$route.params.id,
                 welcomeBg: null,
 				toOwnerContent: ''
             }
@@ -30,6 +36,9 @@
 				var txt = document.createElement('textarea');
 				txt.innerHTML = str;
 				return txt.value;
+			},
+			goToPage(page) {
+				this.$router.push({name: page, params: {id: this.deliverId}})
 			},
             getInfo() {
                 let data = {

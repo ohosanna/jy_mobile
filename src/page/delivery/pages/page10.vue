@@ -130,6 +130,35 @@
 				data.communityId = this.communityId
 				data.houseId = this.houseInfo.houseId
 				data.custId = this.custInfo.id
+				if (data.custName == '') {
+					return this.$message.error('请填写姓名')
+				} else if (data.sex == '') {
+					return this.$message.error('请选择性别')
+				} else if (data.birthday == '') {
+					return this.$message.error('请填写出生年月')
+				} else if (data.hobbies == '') {
+					return this.$message.error('请填写爱好')
+				} else if (data.wechatOrQQ== '') {
+					return this.$message.error('请填写微信号或者qq号')
+				} else if (data.contactName == '') {
+					return this.$message.error('请填写紧急联系人')
+				} else if (data.contactTel == '') {
+					return this.$message.error('请填写紧急联系人电话号码')
+				} else if (data.workUnit == '') {
+					return this.$message.error('请填写工作单位')
+				} else if (data.vocation == '') {
+					return this.$message.error('请填写职业')
+				} else if (data.workTel == '') {
+					return this.$message.error('请填写办公电话')
+				} else if (data.unitAddress == '') {
+					return this.$message.error('请填写单位地址')
+				} else if (data.isHaveCar == '') {
+					return this.$message.error('请选择是否有车')
+				} else if (data.isHaveChildren == '') {
+					return this.$message.error('请选择是否有子女')
+				} else if (data.houseProperty == '') {
+					return this.$message.error('请选择房屋性质')
+				}
                 this.$US.ownerRegister(data).then(res => {
                     if (res.code == 0) {
 						this.$message.success("业主信息登记成功")

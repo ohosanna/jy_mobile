@@ -17,6 +17,10 @@
 				<div class="clear"></div>
 				<div class="addpiclist">
 				<ul>	
+					
+					<li class="imgInputBox">
+						<image-uploader text="点击上传行驶证正面照片" />
+					</li>
 					<li class="imgInputBox">
 						<b>点击上传行驶证正面照片</b>
 						<input id="headFile1" type="file" class="imgInputBox_imgInput" name="headFile1" onchange="getObjectURL(this,'headIcon1')">
@@ -48,12 +52,17 @@
 </template>
 
 <script>
+	import imageUploader from '../../../components/image_uploader'
     export default {
         name: "deliveryPage12",
+		components: {
+			imageUploader
+		},
         data(){
             return{
+                deliverId: this.$route.params.id,
                 welcomeBg: null,
-				content: null,
+				carInfo: {}
             }
         },
 		methods: {

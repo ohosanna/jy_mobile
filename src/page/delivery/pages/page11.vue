@@ -91,6 +91,15 @@
 				let data = this.familyData
 				data.houseId = this.houseInfo.houseId
 				data.custId = this.custInfo.id
+				if (data.familyName == '') {
+					return this.$message.error('请填写姓名')
+				} else if (data.role == '') {
+					return this.$message.error('请选择家庭角色')
+				} else if (data.sex == '') {
+					return this.$message.error('请选择性别')
+				} else if (data.telephone == '') {
+					return this.$message.error('请填写联系电话')
+				}
                 this.$US.ownerFamilyRegister(data).then(res => {
                     if (res.code == 0) {
 						this.$message.success("家人信息登记成功")
