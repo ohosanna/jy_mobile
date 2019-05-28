@@ -9,44 +9,41 @@
 		</div>
 		<div class="form-bd">
 			<div class="list">
-				<p class="set-col-6"><span>*车牌号：</span><input ></p>
-				<p class="set-col-6"><span>*车辆品牌：</span><input ></p>
-				<p class="set-col-6"><span>*使用人：</span><input ></p>
-				<p class="set-col-6"><span>*联系电话：</span><input ></p>
-				<p class="set-col-6"><span>车辆颜色：</span><select ><option>白色</option><option>红色</option><option>黑色</option></select></p>
+				<p class="set-col-6"><span>*车牌号：</span><input v-model="carInfo.carNumber" /></p>
+				<p class="set-col-6"><span>*车辆品牌：</span><input v-model="carInfo.carBrand" /></p>
+				<p class="set-col-6"><span>*使用人：</span><input v-model="carInfo.carOwner" /></p>
+				<p class="set-col-6"><span>*联系电话：</span><input v-model="carInfo.telephone" /></p>
+				<p class="set-col-6">
+					<span>车辆颜色：</span>
+					<select v-model="carInfo.carColor" >
+						<option value="白色">白色</option>
+						<option value="黑色">黑色</option>
+						<option value="灰色">灰色</option>
+						<option value="红色">红色</option>
+						<option value="蓝色">蓝色</option>
+						<option value="其它色">其它色</option>
+					</select>
+				</p>
 				<div class="clear"></div>
 				<div class="addpiclist">
 				<ul>	
 					
 					<li class="imgInputBox">
-						<image-uploader text="点击上传行驶证正面照片" />
+						<image-uploader name="photo1" @success="handleImageUploaded" text="点击上传行驶证正面照片" />
 					</li>
 					<li class="imgInputBox">
-						<b>点击上传行驶证正面照片</b>
-						<input id="headFile1" type="file" class="imgInputBox_imgInput" name="headFile1" onchange="getObjectURL(this,'headIcon1')">
-						<img class="imgInputBox_img" id="headIcon1"  >
+						<image-uploader name="photo2" @success="handleImageUploaded" text="点击上传行驶证反面照片" />
 					</li>
-					
-					<li class="imgInputBox">
-						<b>点击上传行驶证反面照片</b>
-						<input id="headFile2" type="file" class="imgInputBox_imgInput" name="headFile2" onchange="getObjectURL(this,'headIcon2')">
-						<img class="imgInputBox_img" id="headIcon2"  >
+					<li class="imgInputBox" >
+						<image-uploader name="photo3" @success="handleImageUploaded" text="点击上传驾驶证正面照片" />
 					</li>
-					
-					<li class="imgInputBox">
-						<b>点击上传驾驶证正面照片</b>
-						<input id="headFile3" type="file" class="imgInputBox_imgInput" name="headFile3" onchange="getObjectURL(this,'headIcon3')">
-						<img class="imgInputBox_img" id="headIcon3"  >
-					</li>
-					</ul>
-		
-					
+				</ul>
 				</div>
 			</div>
 		</div>
 		
 		<div class="form-sumbit">
-			<a class="btn">确认上传</a>
+			<a class="btn" @click="handleCarInfoSubmit">确认上传</a>
 		</div>
 	</div>
 </template>
@@ -61,7 +58,10 @@
         data(){
             return{
                 deliverId: this.$route.params.id,
+				companyId: '',
+				communityId: '',
                 welcomeBg: null,
+				custInfo: {},
 				carInfo: {}
             }
         },
@@ -78,12 +78,53 @@
                 }
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
-                        this.welcomeBg = res.data.welcome_bg
+						this.companyId = res.data.companyId
+						this.communityId = res.data.communityId
                     }
                 })
             },
+			handleImageUploaded(name, res) {
+				this.carInfo[name] = res.data.id
+			},
+			handleCarInfoSubmit() {
+				let data = this.carInfo
+				data.companyId = this.companyId
+				data.communityId = this.communityId
+				data.custId = this.custInfo.id
+				if (data.carNumber == '') {
+					return this.$message.error("请填写车牌号码")
+				} else if (data.carBand == '') {
+					return this.$message.error("请填写车辆品牌")
+				} else if (data.carOwner == '') {
+					return this.$message.error("请填写车辆使用人")
+				} else if (data.telephone == '') {
+					return this.$message.error("请填写联系电话")
+				} else if (data.carColor == '') {
+					return this.$message.error("请选择车辆颜色")
+				} else if (data.photo1 == '') {
+					return this.$message.error("请上传行驶证正面照片")
+				} else if (data.photo2 == '') {
+					return this.$message.error("请上传行驶证反面照片")
+				} else if (data.photo3 == '') {
+					return this.$message.error("请上传车辆照片")
+				}
+                this.$US.uploadCarInfo(data).then(res => {
+                    if (res.code == 0) {
+						this.$message.success("车辆信息提交成功")
+						setTimeout( () => {
+							this.$router.push({path: 'deliveryPage13'})
+						}, 2000)
+                    } else {
+						this.$message.error(res.msg)
+					}
+                })
+
+			}
 		},
         created() {
+			let custInfo = JSON.parse(this.$fun.getLocalStorage('custInfo'))
+			this.custInfo = custInfo ? custInfo : {}
+			this.getInfo()
         }
 	}
 </script>

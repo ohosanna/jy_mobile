@@ -202,3 +202,15 @@ export function ownerFamilyRegister(data) {
             })
     });
 }
+
+export function uploadCarInfo(data) {
+    return new Promise((resolve, reject) => {
+        ax.post('http://wyapp.rkph.com.cn/api/househandover/upload-car-info',data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('提交车辆信息失败:'+err);
+            })
+    });
+}

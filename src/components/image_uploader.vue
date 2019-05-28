@@ -18,6 +18,11 @@
             }
         },
         props: {
+            name: {
+                type: String,
+                default: ''
+
+            },
             text: {
                 type: String,
                 default: '上传文件'
@@ -83,12 +88,16 @@
                     })
                     .then(function (res) {
                         //handle success
-                        console.log(res);
-                    })
+                        this.isLoading = false;
+                        handleFile();
+                        this.$emit('success', this.name, res.data);
+                        this.$message.success("图片上传成功")
+                    }.bind(this))
                     .catch(function (response) {
-                        //handle error
-                        console.log(response);
-                    });
+                        this.isLoading = false;
+                        this.isSuccess = false;
+                        this.$message.error("图片上传失败")
+                    }.bind(this));
                 // ax.post(url, formData).then((res) => {
                 //     console.log(res);
                 //     this.isLoading = false;
