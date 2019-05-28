@@ -2,7 +2,7 @@
 	<div class="wx-full bg-userSet" id="mPic6">
 		<div class="pic-userSet">
 			<div class="toptext">
-				<b>公证需要提供的材料</b>
+				<b>契税申报办理指南</b>
 			</div>
 			<div class="notecontent" v-html="content">
 			</div>
@@ -11,7 +11,7 @@
             <img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
 		</div>
 		<div class="goNext">
-			<a @click="goToPage('page6-1')">
+			<a @click="goToPage('page7')">
 				<img  src="../../../assets/images/delivery/goNext.png"  />
 			</a>
 		</div>
@@ -21,7 +21,7 @@
 
 <script>
     export default {
-        name: "deliveryPage6",
+        name: "deliveryPage6-1",
         data(){
             return{
                 welcomeBg: null,

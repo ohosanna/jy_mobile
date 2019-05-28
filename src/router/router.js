@@ -14,6 +14,7 @@ const deliveryPage3 = r =>require.ensure([], () => r(require('page/delivery/page
 const deliveryPage4 = r =>require.ensure([], () => r(require('page/delivery/pages/page4')), 'deliveryPage4');
 const deliveryPage5 = r =>require.ensure([], () => r(require('page/delivery/pages/page5')), 'deliveryPage5');
 const deliveryPage6 = r =>require.ensure([], () => r(require('page/delivery/pages/page6')), 'deliveryPage6');
+const deliveryPage6_1 = r =>require.ensure([], () => r(require('page/delivery/pages/page6_1')), 'deliveryPage6_1');
 const deliveryPage7 = r =>require.ensure([], () => r(require('page/delivery/pages/page7')), 'deliveryPage7');
 const deliveryPage8 = r =>require.ensure([], () => r(require('page/delivery/pages/page8')), 'deliveryPage8');
 const deliveryPage9 = r =>require.ensure([], () => r(require('page/delivery/pages/page9')), 'deliveryPage9');
@@ -90,6 +91,11 @@ export default new Router({
           path: 'page6',
           name: 'deliveryPage6',
           component: deliveryPage6 
+        },
+        {
+          path: 'page6-1',
+          name: 'deliveryPage6-1',
+          component: deliveryPage6_1 
         },
         {
           path: 'page7',
