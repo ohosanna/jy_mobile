@@ -132,7 +132,7 @@
 				data.custId = this.custInfo.id
 				if (data.custName == '') {
 					return this.$message.error('请填写姓名')
-				} else if (data.sex == '') {
+				} else if (data.sex === '') {
 					return this.$message.error('请选择性别')
 				} else if (data.birthday == '') {
 					return this.$message.error('请填写出生年月')
@@ -152,9 +152,9 @@
 					return this.$message.error('请填写办公电话')
 				} else if (data.unitAddress == '') {
 					return this.$message.error('请填写单位地址')
-				} else if (data.isHaveCar == '') {
+				} else if (data.isHaveCar === '') {
 					return this.$message.error('请选择是否有车')
-				} else if (data.isHaveChildren == '') {
+				} else if (data.isHaveChildren === '') {
 					return this.$message.error('请选择是否有子女')
 				} else if (data.houseProperty == '') {
 					return this.$message.error('请选择房屋性质')
