@@ -9,6 +9,7 @@
 		</div>
 		<div class="form-bd">
 			<div class="list family-list clearfix" v-for="(info, index) in familyInfo" :key="index">
+				<div class="del-member" @click="deleteFamilyMember(info)">删除</div>
 				<div class="set-col-6">
 					<span class="title">姓名：</span>
 					<span>{{info.familyName}}</span>
@@ -146,6 +147,19 @@
                     }
                 })
 			},
+			deleteFamilyMember(member) {
+				let data = {
+					custId: this.custInfo.id,
+					familyName: member.familyName
+				}
+                this.$US.deleteFamilyMember(data).then(res => {
+                    if (res.code == 0) {
+						this.$message.success('家庭成员删除成功')
+						this.getFamilyInfo()
+                    }
+                })
+
+			},
 			handleFamilyRegister(isNext) {
 				let data = this.familyData
 				data.houseId = this.houseInfo.houseId
@@ -167,6 +181,7 @@
 								this.$router.push({name: 'deliveryPage12', params: {id: this.deliverId}})
 							}, 2000)
 						} else {
+							this.getFamilyInfo()
 							this.familyData = {}
 						}
                     } else {

@@ -179,6 +179,18 @@ export function getUploadFamilyInfo(data) {
     });
 }
 
+export function deleteFamilyMember(data) {
+    return new Promise((resolve, reject) => {
+        ax.post('http://wyapp.rkph.com.cn/api/househandover/delete-family-info',data)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                console.log('提交业主信息失败:'+err);
+            })
+    });
+}
+
 export function ownerRegister(data) {
     return new Promise((resolve, reject) => {
         ax.post('http://wyapp.rkph.com.cn/api/househandover/owner-register',data)
