@@ -91,28 +91,28 @@
 				data.companyId = this.companyId
 				data.communityId = this.communityId
 				data.custId = this.custInfo.id
-				if (data.carNumber == '') {
+				if (data.carNumber == '' || data.carNumber == undefined) {
 					return this.$message.error("请填写车牌号码")
-				} else if (data.carBand == '') {
+				} else if (data.carBrand == '' || data.carBrand == undefined ) {
 					return this.$message.error("请填写车辆品牌")
-				} else if (data.carOwner == '') {
+				} else if (data.carOwner == '' || data.carOwner == undefined) {
 					return this.$message.error("请填写车辆使用人")
-				} else if (data.telephone == '') {
+				} else if (data.telephone == '' || data.telephone == undefined) {
 					return this.$message.error("请填写联系电话")
-				} else if (data.carColor == '') {
+				} else if (data.carColor == '' || data.carColor == undefined) {
 					return this.$message.error("请选择车辆颜色")
-				} else if (data.photo1 == '') {
+				} else if (data.photo1 == '' || data.photo1 == undefined) {
 					return this.$message.error("请上传行驶证正面照片")
-				} else if (data.photo2 == '') {
+				} else if (data.photo2 == '' || data.photo2 == undefined) {
 					return this.$message.error("请上传行驶证反面照片")
-				} else if (data.photo3 == '') {
-					return this.$message.error("请上传车辆照片")
+				} else if (data.photo3 == '' || data.photo3 == undefined) {
+					return this.$message.error("请上传驾驶证正面照片")
 				}
                 this.$US.uploadCarInfo(data).then(res => {
                     if (res.code == 0) {
 						this.$message.success("车辆信息提交成功")
 						setTimeout( () => {
-							this.$router.push({path: 'deliveryPage13'})
+							this.$router.push({path: 'page13'})
 						}, 2000)
                     } else {
 						this.$message.error(res.msg)

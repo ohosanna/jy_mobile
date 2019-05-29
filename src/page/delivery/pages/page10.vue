@@ -115,10 +115,11 @@
 			getOwnerInfo() {
 				let data = {
 					custId: this.custInfo.id,
+					houseId: this.houseInfo.houseId
 				}
                 this.$US.getCustomerInfo(data).then(res => {
-                    if (res.code == 0 && res.data) {
-						this.ownerInfo = res.data
+                    if (res.code == 0 && res.data.length) {
+						this.ownerInfo = res.data[0]
                     } else {
 						this.$message.error(res.msg)
 					}

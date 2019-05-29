@@ -2,7 +2,7 @@
     <div class="vue-uploader" :class="[{'loading loading-light-bg': isLoading}, {'success': isSuccess}]">
         <label ref="preview">
             <div class="title">{{  text  }}</div>
-            <input type="file" @change="handleFileChange" accept="image/png,image/jpeg"/>
+            <input type="file" @change="handleFileChange" accept="image/*"/>
         </label>
     </div>
 </template>

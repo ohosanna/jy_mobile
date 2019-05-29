@@ -1,5 +1,5 @@
 <template>
-	<div class="wx-full bg-userSet2" id="mPic11">
+	<div class="wx-full bg-userSet2 family-info" id="mPic11">
 		<div class="form-hd">
 			<h2>
 				<img src="../../../assets/images/delivery/text-logo.png" class="slogo"  />
@@ -8,7 +8,37 @@
 			<p class="notep">亲爱的业主，为节约您交付现场办理时间，请于交付之日前填写以下信息并上传，谢谢！(注:带*为必填项)</p>
 		</div>
 		<div class="form-bd">
-			<div class="list">
+			<div class="list family-list clearfix" v-for="(info, index) in familyInfo" :key="index">
+				<div class="set-col-6">
+					<span class="title">姓名：</span>
+					<span>{{info.familyName}}</span>
+				</div>
+				<div class="set-col-6">
+					<span class="title">家庭角色：</span>
+					<span>{{roleMap[info.role]}}</span>
+				</div>
+				<div class="set-col-6">
+					<span class="title">性别：</span>
+					<span>{{sexMap[info.sex]}}</span>
+				</div>
+				<div class="set-col-6">
+					<span class="title">文化程度：</span>
+					<span>{{educationMap[info.education]}}</span>
+				</div>
+				<div class="set-col-6">
+					<span class="title">工作单位：</span>
+					<span>{{info.workUnit}}</span>
+				</div>
+				<div class="set-col-6">
+					<span class="title">职务：</span>
+					<span>{{info.vocation}}</span>
+				</div>
+				<div class="set-col-6">
+					<span class="title">联系电话：</span>
+					<span>{{info.telephone}}</span>
+				</div>
+			</div>
+			<div class="list family-list">
 				<p class="set-col-6"><span>*姓名：</span><input type="text" v-model="familyData.familyName" /></p>
 				<p class="set-col-6">
 					<span>家庭角色：</span>
@@ -54,8 +84,27 @@
             return{
                 deliverId: this.$route.params.id,
 				custInfo: {},
+				familyInfo: [],
 				familyData: {},
                 welcomeBg: null,
+				roleMap: {
+					"0": "父亲",
+					"1": "母亲",
+					"2": "配偶",
+					"3": "子女",
+					"4": "其它"
+				},
+				sexMap: {
+					"0": "男",
+					"1": "女",
+				},
+				educationMap: {
+					"0": "初中及以下",
+					"1": "高中",
+					"2": "大专",
+					"3": "本科",
+					"4": "硕士及以上"
+				}
             }
         },
 		methods: {
@@ -86,6 +135,16 @@
 				} else {
 					this.houseInfo = JSON.parse(houseInfo)
 				}
+			},
+			getFamilyInfo() {
+				let data = {
+					custId: this.custInfo.id
+				}
+                this.$US.getFamilyInfo(data).then(res => {
+                    if (res.code == 0) {
+						this.familyInfo = res.data.familyList
+                    }
+                })
 			},
 			handleFamilyRegister(isNext) {
 				let data = this.familyData
@@ -121,6 +180,9 @@
 			this.custInfo = custInfo ? custInfo : {}
 			this.getInfo()
 			this.getHouseInfo()
+			this.$nextTick(() => {
+				this.getFamilyInfo()
+			})
         }
 	}
 </script>

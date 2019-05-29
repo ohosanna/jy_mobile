@@ -65,12 +65,18 @@ export default new Router({
         { 
           path: '', 
           name: 'deliveryPage1',
-          component: deliveryPage1 
+          component: deliveryPage1, 
+          meta: {
+            title: "房产交付",
+          },
         },
         {
           path: 'page2',
           name: 'deliveryPage2',
-          component: deliveryPage2 
+          component: deliveryPage2, 
+          meta: {
+            title: "查询我的房",
+          },
         },
         {
           path: 'page3',

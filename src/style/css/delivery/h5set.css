@@ -325,6 +325,10 @@
 	border-radius: 0.5em;
 	margin: 0 auto;
 }
+.family-info .form-bd {
+	background: transparent;
+	border: 0;
+}
 .bg-userSet2 input {
 	border: 1px solid #ddd;
 	border-radius: 0.1em;
@@ -342,6 +346,13 @@
 	width: 96%;
 	margin: 0.5em auto;
 	position: relative;
+}
+.family-info .family-list {
+	color: #333;
+	background: #FFF;
+	border: 1px solid #02BB00;
+	border-radius: 0.5em;
+	padding: 0.6em;
 }
 .bg-userSet2 .list p {
 	margin: 0.1em auto;
@@ -362,6 +373,9 @@
 
 .bg-userSet2 .list .set-col-6 span {
 	width: 55%;
+}
+.family-info .family-list .set-col-6 span {
+	width: 48%;
 }
 
 .bg-userSet2 .list .set-col-6 input, .bg-userSet2 .list .set-col-6 select {
