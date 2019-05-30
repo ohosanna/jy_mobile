@@ -1,34 +1,43 @@
 <template>
-	<div class="wx-full bg-userSet" id="mPic4">
-		<div class="pic-userSet">
-			<div class="toppic">
-				<img src="../../../assets/images/delivery/text3.png" class="fullpic" />
+	<pull-to :bottom-load-method="pullBottom" >
+		<div class="wx-full bg-userSet" id="mPic4">
+			<div class="pic-userSet">
+				<div class="toppic">
+					<img src="../../../assets/images/delivery/text3.png" class="fullpic" />
+				</div>
+				<div class="note">
+					感谢您加入路劲大家庭！为使您更顺利地办理手续，请详细阅读以下内容：
+				</div>
+				<div class="notecenter" v-html="toOwnerContent">
+				</div>
 			</div>
-			<div class="note">
-				感谢您加入路劲大家庭！为使您更顺利地办理手续，请详细阅读以下内容：
+			<div class="footPic">
+				<img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
 			</div>
-			<div class="notecenter" v-html="toOwnerContent">
+			<div class="goNext">
+				<a @click="goToPage('page5')">
+					<img src="../../../assets/images/delivery/goNext.png"  />
+				</a>
 			</div>
 		</div>
-		<div class="footPic">
-            <img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
-		</div>
-		<div class="goNext">
-			<a @click="goToPage('deliveryPage5')">
-				<img src="../../../assets/images/delivery/goNext.png"  />
-			</a>
-		</div>
-	</div>
+	</pull-to>
 </template>
  
 <script>
+	import PullTo from 'vue-pull-to'
     export default {
         name: "deliveryPage4",
+		components: {
+			PullTo
+		},
         data(){
             return{
                 deliverId: this.$route.params.id,
                 welcomeBg: null,
-				toOwnerContent: ''
+				toOwnerContent: '',
+				pullConfig: {
+					triggerDistance: 70
+				}
             }
         },
 		methods: {
@@ -37,8 +46,11 @@
 				txt.innerHTML = str;
 				return txt.value;
 			},
+			pullBottom() {
+				this.goToPage('page5')
+			},
 			goToPage(page) {
-				this.$router.push({name: page, params: {id: this.deliverId}})
+				this.$router.push({path: page})
 			},
             getInfo() {
                 let data = {

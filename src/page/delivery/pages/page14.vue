@@ -8,7 +8,7 @@
 		<div class="footPic">
             <img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
 		</div>
-		<div class="goNext">
+		<div class="goNext" v-if="false">
 			<img @click="goToPage('page2')" src="../../../assets/images/delivery/goNext.png"  />
 		</div>
 	</div>

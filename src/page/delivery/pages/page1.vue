@@ -1,5 +1,5 @@
 <template>
-    <div class="wx-full bg-userSet" id="mPic1">
+    <div class="wx-full bg-userSet" id="mPic1" :style="backgroundObject">
         <div class="pic-userSet">
             <img v-if="welcomePic" :src="welcomePic" class="fullpic">
             <router-link class="btn btn-bigger btn-yellow" :to="{name: 'deliveryPage2'}">点击进入交付查询通道</router-link>
@@ -15,8 +15,20 @@
         data(){
             return{
                 welcomePic: null,
-                welcomeBg: null
+                welcomeBg: null,
+                background: null
             }
+        },
+        computed: {
+            backgroundObject() {
+                let style = {
+                }
+                if (this.background)  {
+                    style['background'] = this.background
+                }
+                return style
+            }
+
         },
         methods:{
             getInfo() {
@@ -28,6 +40,7 @@
                     if (res.code == 0) {
                         this.welcomePic = res.data.welcome;
                         this.welcomeBg = res.data.welcome_bg;
+                        this.background = res.data.background
                     }
                 })
             }

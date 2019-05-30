@@ -1,27 +1,33 @@
 <template>
-	<div class="wx-full bg-userSet" id="mPic6">
-		<div class="pic-userSet">
-			<div class="toptext">
-				<b>契税申报办理指南</b>
+	<pull-to :bottom-load-method="pullBottom" >
+		<div class="wx-full bg-userSet" id="mPic6">
+			<div class="pic-userSet">
+				<div class="toptext">
+					<b>契税申报办理指南</b>
+				</div>
+				<div class="notecontent" v-html="content">
+				</div>
 			</div>
-			<div class="notecontent" v-html="content">
+			<div class="footPic">
+				<img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
+			</div>
+			<div class="goNext">
+				<a @click="goToPage('page7')">
+					<img  src="../../../assets/images/delivery/goNext.png"  />
+				</a>
 			</div>
 		</div>
-		<div class="footPic">
-            <img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
-		</div>
-		<div class="goNext">
-			<a @click="goToPage('page7')">
-				<img  src="../../../assets/images/delivery/goNext.png"  />
-			</a>
-		</div>
-	</div>
+	</pull-to>
 </template>
  
 
 <script>
+	import PullTo from 'vue-pull-to'
     export default {
         name: "deliveryPage6-1",
+		components: {
+			PullTo
+		},
         data(){
             return{
                 welcomeBg: null,
@@ -36,6 +42,9 @@
 			},
 			goToPage(path) {
 				this.$router.push({path: path})
+			},
+			pullBottom() {
+				this.goToPage('page7')
 			},
             getInfo() {
                 let data = {
