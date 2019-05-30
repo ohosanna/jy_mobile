@@ -1,6 +1,6 @@
 <template>
 	<pull-to :bottom-load-method="pullBottom" >
-		<div class="wx-full bg-userSet" id="mPic5">
+		<div class="wx-full bg-userSet" id="mPic5" :style="styleObject">
 			<div class="pic-userSet">
 				<div class="toppic">
 					<img v-if="mapImg" :src="mapImg" class="fullpic">
@@ -31,9 +31,19 @@
             return{
                 deliverId: this.$route.params.id,
                 welcomeBg: null,
+				background: null,
 				mapImg: null,
             }
         },
+		computed: {
+			styleObject() {
+				let style = {}
+				if (this.background) {
+					style.background = 'url(' + this.background + ')'
+				}
+				return style
+			}
+		},
 		methods: {
 			decodeHTML(str) {
 				var txt = document.createElement('textarea');
@@ -54,6 +64,7 @@
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
                         this.welcomeBg = res.data.welcome_bg
+						this.background = res.data.background
                         this.mapImg = res.data.map
                     }
                 })

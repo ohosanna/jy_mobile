@@ -1,8 +1,8 @@
 <template>
-	<div class="wx-full bg-userSet" id="mPic2">
+	<div class="wx-full bg-userSet" id="mPic3" :style="styleObject">
 		<div class="pic-userSet">
 				<div class="toppic">
-					<img src="../../../assets/images/delivery/text2.png">
+					<img src="../../../assets/images/delivery/text2.png" class="fullpic">
 				</div>
 				<div class="houselist">
 					<div v-for="room in rooms" :key="room.houseId" class="list">
@@ -23,9 +23,19 @@
             return{
                 deliverId: this.$route.params.id,
                 welcomeBg: null,
+				background: null,
 				rooms: []
             }
         },
+		computed: {
+			styleObject() {
+				let style = {}
+				if (this.background) {
+					style.background = 'url(' + this.background + ')'
+				}
+				return style
+			}
+		},
         methods:{
             getInfo() {
                 let data = {
@@ -35,6 +45,7 @@
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
                         this.welcomeBg = res.data.welcome_bg;
+						this.background = res.data.background
                     }
                 })
             },

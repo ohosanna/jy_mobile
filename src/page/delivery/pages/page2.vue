@@ -1,5 +1,5 @@
 <template>
-	<div class="wx-full bg-userSet" id="mPic2">
+	<div class="wx-full bg-userSet" id="mPic2" :style="styleObject">
 		<div class="pic-userSet">
 			<div class="toppic">
 				<img src="../../../assets/images/delivery/text1.png">
@@ -34,11 +34,21 @@
             return{
 				communityId: '',
 				deliverId: this.$route.params.id,
+				background: null,
                 welcomeBg: null,
 				custName: '',
 				cardNumber: ''
             }
         },
+		computed: {
+			styleObject() {
+				let style = {}
+				if (this.background) {
+					style.background = 'url(' + this.background + ')'
+				}
+				return style
+			}
+		},
         methods:{
             getInfo() {
                 let data = {
@@ -48,6 +58,7 @@
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
 						this.communityId = res.data.communityId
+						this.background = res.data.background
                         this.welcomeBg = res.data.welcome_bg
                     }
                 })

@@ -1,6 +1,6 @@
 <template>
 	<pull-to :bottom-load-method="pullBottom" >
-		<div class="wx-full bg-userSet" id="mPic7">
+		<div class="wx-full bg-userSet" id="mPic7" :style="styleObject">
 			<div class="pic-userSet housePrice">
 				<div class="notecontent">
 					<h3>房价补(退)差价</h3>
@@ -43,10 +43,20 @@
             return{
                 deliverId: this.$route.params.id,
                 welcomeBg: null,
+				background: null,
 				priceData: {},
 				houseInfo: {}
             }
         },
+		computed: {
+			styleObject() {
+				let style = {}
+				if (this.background) {
+					style.background = 'url(' + this.background + ')'
+				}
+				return style
+			}
+		},
 		methods: {
 			decodeHTML(str) {
 				var txt = document.createElement('textarea');
@@ -67,6 +77,7 @@
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
                         this.welcomeBg = res.data.welcome_bg
+						this.background = res.data.background
                     }
                 })
             },

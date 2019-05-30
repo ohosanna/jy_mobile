@@ -1,6 +1,6 @@
 <template>
 	<pull-to :bottom-load-method="pullBottom" >
-		<div class="wx-full bg-userSet" id="mPic4">
+		<div class="wx-full bg-userSet" id="mPic4" :style="styleObject">
 			<div class="pic-userSet">
 				<div class="toppic">
 					<img src="../../../assets/images/delivery/text3.png" class="fullpic" />
@@ -35,11 +35,18 @@
                 deliverId: this.$route.params.id,
                 welcomeBg: null,
 				toOwnerContent: '',
-				pullConfig: {
-					triggerDistance: 70
-				}
+				background: null,
             }
         },
+		computed: {
+			styleObject() {
+				let style = {}
+				if (this.background) {
+					style.background = 'url(' + this.background + ')'
+				}
+				return style
+			}
+		},
 		methods: {
 			decodeHTML(str) {
 				var txt = document.createElement('textarea');
@@ -60,6 +67,7 @@
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
                         this.welcomeBg = res.data.welcome_bg
+						this.background = res.data.background
 						this.toOwnerContent = this.decodeHTML(res.data.toOwner)
                     }
                 })

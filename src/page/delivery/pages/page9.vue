@@ -1,6 +1,6 @@
 <template>
 	<pull-to :bottom-load-method="pullBottom" >
-		<div class="wx-full bg-userSet" id="mPic9">
+		<div class="wx-full bg-userSet" id="mPic9" :style="styleObject">
 			<div class="pic-userSet housePrice">
 				<div class="notecontent">
 					<h3>家庭信息登记</h3>
@@ -36,8 +36,18 @@
             return{
                 welcomeBg: null,
 				content: null,
+				background: null,
             }
         },
+		computed: {
+			styleObject() {
+				let style = {}
+				if (this.background) {
+					style.background = 'url(' + this.background + ')'
+				}
+				return style
+			}
+		},
 		methods: {
 			decodeHTML(str) {
 				var txt = document.createElement('textarea');
@@ -58,6 +68,7 @@
                 this.$US.getHousehandoverInfo(data).then(res => {
                     if (res.code == 0) {
                         this.welcomeBg = res.data.welcome_bg
+						this.background = res.data.background
 						this.content = this.decodeHTML(res.data.familyTip)
                     }
                 })

@@ -24,7 +24,7 @@
                 let style = {
                 }
                 if (this.background)  {
-                    style['background'] = this.background
+                    style['background'] = 'url(' + this.background + ')'
                 }
                 return style
             }
