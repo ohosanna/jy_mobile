@@ -50,9 +50,12 @@
         },
         methods: {
             init() {
-                if (this.defaultUrl != '') {
+                if (this.defaultUrl && this.defaultUrl != '') {
                     this.$refs.preview.style.backgroundImage = `url(${this.defaultUrl})`;
                 }
+            },
+            reset() {
+                this.$refs.preview.style = {};
             },
             handleFileChange: function (e) {
                 var files = e.target.files;
@@ -62,7 +65,7 @@
             },
             uploadAction: function (file) {
                 if (file.size > this.limit * 1024 * 1024) {
-                    return this.$message.error("文件大小不能大于${this.limit}M，请压缩后再重新上传");
+                    return this.$message.error("文件大小不能大于" + this.limit + "M，请压缩后再重新上传");
                 }
 
                 var reader = new FileReader();
@@ -98,16 +101,6 @@
                         this.isSuccess = false;
                         //this.$message.error("图片上传失败")
                     }.bind(this));
-                // ax.post(url, formData).then((res) => {
-                //     console.log(res);
-                //     this.isLoading = false;
-                //     handleFile();
-                //     this.$emit('success', res);
-                // }).catch((err) => {
-                //     this.isLoading = false;
-                //     this.isSuccess = false;
-                //     console.log('图片上传失败:'+err);
-                // })
             }
         }
     }
