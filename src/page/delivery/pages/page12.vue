@@ -85,6 +85,7 @@
 		</div>
 		<div class="form-sumbit">
 			<a class="btn" @click="handleCarInfoSubmit(true)">确认上传</a>
+			<router-link class="btn btn-skip" :to="{path: 'page13'}">跳过这一步</router-link>
 		</div>
 	</div>
 </template>

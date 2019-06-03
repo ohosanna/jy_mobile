@@ -74,6 +74,7 @@
 		</div>
 		<div class="form-sumbit">
 			<a class="btn" @click="handleFamilyRegister(true)">确认上传</a>
+			<router-link class="btn btn-skip" :to="{path: 'page12'}">跳过这一步</router-link>
 		</div>
 	</div>
 </template>

@@ -486,10 +486,15 @@
 .bg-userSet2 .form-sumbit a {
 	background: #ff5c67;
 	color: #FFF;
-	margin: 1em auto 3em auto;
+	margin: 1em auto 1em auto;
 	width: 92%;
 	display: block;
 	line-height: 2em;
+}
+.bg-userSet2 .form-sumbit .btn-skip {
+	background: #FFF;
+	color: #888;
+	margin-bottom: 3em;
 }
 
 .next-add a {
