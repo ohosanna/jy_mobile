@@ -1,5 +1,5 @@
 <template>
-	<pull-to :bottom-load-method="pullBottom" >
+	<!--<pull-to :bottom-load-method="pullBottom" >-->
 		<div class="wx-full bg-userSet" id="mPic7" :style="styleObject">
 			<div class="pic-userSet housePrice">
 				<div class="notecontent">
@@ -7,7 +7,7 @@
 					<h4>房屋面积差</h4>
 					<div class="list">
 						<p><span>合同面积(m²)</span><input v-model="priceData.contractArea" readonly /></p>
-						<p><span>实则面积(m²)</span><input v-model="priceData.realArea" readonly /></p>
+						<p><span>实测面积(m²)</span><input v-model="priceData.realArea" readonly /></p>
 						<p><span>合同差额(m²)</span><input v-model="priceData.differArea" readonly /></p>
 					</div>
 					<h4>房款补退差价</h4>
@@ -28,16 +28,16 @@
 				</a>
 			</div>
 		</div>
-	</pull-to>
+	<!--</pull-to>-->
 </template>
  
 
 <script>
-	import PullTo from 'vue-pull-to'
+//	import PullTo from 'vue-pull-to'
     export default {
         name: "deliveryPage7",
 		components: {
-			PullTo
+//			PullTo
 		},
         data(){
             return{

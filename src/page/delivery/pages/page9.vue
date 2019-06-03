@@ -1,5 +1,5 @@
 <template>
-	<pull-to :bottom-load-method="pullBottom" >
+	<!--<pull-to :bottom-load-method="pullBottom" >-->
 		<div class="wx-full bg-userSet" id="mPic9" :style="styleObject">
 			<div class="pic-userSet housePrice">
 				<div class="notecontent">
@@ -21,16 +21,16 @@
 				<img @click="goToPage('page10')" src="../../../assets/images/delivery/goNext.png"  />
 			</div>
 		</div>
-	</pull-to>
+	<!--</pull-to>-->
 </template>
  
 
 <script>
-	import PullTo from 'vue-pull-to'
+//	import PullTo from 'vue-pull-to'
     export default {
         name: "deliveryPage9",
 		components: {
-			PullTo
+//			PullTo
 		},
         data(){
             return{

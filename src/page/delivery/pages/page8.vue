@@ -1,11 +1,11 @@
 <template>
-	<pull-to :bottom-load-method="pullBottom" >
+	<!--<pull-to :bottom-load-method="pullBottom" >-->
 		<div class="wx-full bg-userSet" id="mPic8" :style="styleObject">
 			<div class="pic-userSet housePrice">
 				<div class="notecontent">
 					<h3>物业费用详情</h3>
 					<div class="list">
-						<p><span>物业管理费(12个月)(元)</span><input v-model="propertyData.manageFee1" readonly /></p>
+						<p><span >物业管理费(12个月)(元)</span><input v-model="propertyData.manageFee1" readonly /></p>
 						<p><span>物业管理费(22个月)(元)</span><input v-model="propertyData.manageFee2" readonly /></p>
 						<p><span>电梯费(1年)(元)</span><input v-model="propertyData.liftFee1" readonly /></p>
 						<p><span>电梯费(2年)(元)</span><input v-model="propertyData.liftFee2" readonly /></p>
@@ -33,16 +33,16 @@
 				<img @click="goToPage('page9')" src="../../../assets/images/delivery/goNext.png"  />
 			</div>
 		</div>
-	</pull-to>
+	<!--</pull-to>-->
 </template>
  
 
 <script>
-	import PullTo from 'vue-pull-to'
+//	import PullTo from 'vue-pull-to'
     export default {
         name: "deliveryPage8",
 		components: {
-			PullTo
+//			PullTo
 		},
         data(){
             return{

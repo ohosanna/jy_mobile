@@ -1,5 +1,5 @@
 <template>
-	<pull-to :bottom-load-method="pullBottom" >
+	<!--<pull-to :bottom-load-method="pullBottom" >-->
 		<div class="wx-full bg-userSet" id="mPic6" :style="styleObject">
 			<div class="pic-userSet">
 				<div class="toptext">
@@ -17,16 +17,16 @@
 				</a>
 			</div>
 		</div>
-	</pull-to>
+	<!--</pull-to>-->
 </template>
  
 
 <script>
-	import PullTo from 'vue-pull-to'
+//	import PullTo from 'vue-pull-to'
     export default {
         name: "deliveryPage6",
 		components: {
-			PullTo
+//			PullTo
 		},
         data(){
             return{

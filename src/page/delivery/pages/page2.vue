@@ -66,6 +66,7 @@
 			getHouseList() {
 				let data = {
 					communityId: this.communityId,
+					deliverId: this.deliverId,
 					custName: this.custName,
 					cardNumber: this.cardNumber
 				}

@@ -1,5 +1,5 @@
 <template>
-	<pull-to :bottom-load-method="pullBottom" >
+	<!--<pull-to :bottom-load-method="pullBottom" >-->
 		<div class="wx-full bg-userSet" id="mPic4" :style="styleObject">
 			<div class="pic-userSet">
 				<div class="toppic">
@@ -14,21 +14,23 @@
 			<div class="footPic">
 				<img v-if="welcomeBg" :src="welcomeBg" class="fullpic">
 			</div>
+			<pull-to :bottom-load-method="pullBottom" >
 			<div class="goNext">
 				<a @click="goToPage('page5')">
 					<img src="../../../assets/images/delivery/goNext.png"  />
 				</a>
 			</div>
+			</pull-to>
 		</div>
-	</pull-to>
+	<!--</pull-to>-->
 </template>
  
 <script>
-	import PullTo from 'vue-pull-to'
+//	import PullTo from 'vue-pull-to'
     export default {
         name: "deliveryPage4",
 		components: {
-			PullTo
+//			PullTo
 		},
         data(){
             return{

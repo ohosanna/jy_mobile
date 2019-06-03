@@ -17,7 +17,11 @@
 		</div>
 		<div class="form-bd">
 			<div class="list">
-				<p class="set-col-6"><span>*我是：</span><input type="text" v-model="ownerInfo.custName" /></p>
+				<p class="set-col-6"><span>*我是：</span>
+					<select >
+						<option @click="getOwnerInfomore(index)" :value="item.custName" v-for="(item,index) in ownerInfoArray" :key="index">{{item.custName}}</option>
+					</select>
+				</p>
 				<p class="set-col-6"><span>性别：</span><select v-model="ownerInfo.sex"><option value="0">男</option><option value="1">女</option></select></p>
 				<p class="set-col-12"><span>出生年月：</span><input type="date" v-model="ownerInfo.birthday"></p>
 				<p class="set-col-12">
@@ -65,7 +69,8 @@
 				houseInfo: {},
 				custInfo: {},
 				baseInfo: {},
-				ownerInfo: {}
+				ownerInfo: {},
+				ownerInfoArray: [],
             }
         },
 		methods: {
@@ -119,45 +124,52 @@
 				}
                 this.$US.getCustomerInfo(data).then(res => {
                     if (res.code == 0 && res.data.length) {
-						this.ownerInfo = res.data[0]
+						this.ownerInfo = res.data.slice()[0];
+						this.ownerInfoArray = res.data;
                     } else {
 						this.$message.error(res.msg)
 					}
                 })
 
 			},
+
+			getOwnerInfomore(index) {
+ 				this.ownerInfo = this.ownerInfoArray.slice()[index];
+			},
+
+
 			handleSubmit() {
 				let data = this.ownerInfo
 				data.communityId = this.communityId
 				data.houseId = this.houseInfo.houseId
-				data.custId = this.custInfo.id
-				if (data.custName == '') {
+				//data.custId = this.custInfo.id
+				if (data.custName === '') {
 					return this.$message.error('请填写姓名')
 				} else if (data.sex === '') {
 					return this.$message.error('请选择性别')
-				} else if (data.birthday == '') {
+				} else if (data.birthday === '') {
 					return this.$message.error('请填写出生年月')
-				} else if (data.hobbies == '') {
+				} else if (data.hobbies === '') {
 					return this.$message.error('请填写爱好')
-				} else if (data.wechatOrQQ== '') {
+				} else if (data.wechatOrQQ === '') {
 					return this.$message.error('请填写微信号或者qq号')
-				} else if (data.contactName == '') {
+				} else if (data.contactName === '') {
 					return this.$message.error('请填写紧急联系人')
-				} else if (data.contactTel == '') {
+				} else if (data.contactTel === '') {
 					return this.$message.error('请填写紧急联系人电话号码')
-				} else if (data.workUnit == '') {
+				} else if (data.workUnit === '') {
 					return this.$message.error('请填写工作单位')
-				} else if (data.vocation == '') {
+				} else if (data.vocation === '') {
 					return this.$message.error('请填写职业')
-				} else if (data.workTel == '') {
+				} else if (data.workTel === '') {
 					return this.$message.error('请填写办公电话')
-				} else if (data.unitAddress == '') {
+				} else if (data.unitAddress === '') {
 					return this.$message.error('请填写单位地址')
 				} else if (data.isHaveCar === '') {
 					return this.$message.error('请选择是否有车')
 				} else if (data.isHaveChildren === '') {
 					return this.$message.error('请选择是否有子女')
-				} else if (data.houseProperty == '') {
+				} else if (data.houseProperty === '') {
 					return this.$message.error('请选择房屋性质')
 				}
                 this.$US.ownerRegister(data).then(res => {
@@ -172,6 +184,7 @@
                 })
 			}
 		},
+
         created() {
 			this.getInfo()
 			this.getHouseInfo()
