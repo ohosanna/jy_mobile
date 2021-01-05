@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@riophae/vue-treeselect": "0.0.38",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "element-ui": "^2.7.2",
     "http-proxy-middleware": "^0.19.1",
     "moment": "^2.24.0",
